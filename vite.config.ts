@@ -5,9 +5,9 @@ import path from 'node:path'
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [react()],
-  // GitHub Pages 子路径部署：仓库名为 lofn 则 base 为 /lofn/
+  // GitHub Pages 子路径部署：仓库名为 LOFN 则 base 为 /LOFN/
   // 若使用自定义域名或 <user>.github.io 仓库，改为 '/'
-  base: '/lofn/',
+  base: '/LOFN/',
   resolve: {
     alias: {
       '@': path.resolve(process.cwd(), 'src'),
