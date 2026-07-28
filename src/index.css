@@ -6,44 +6,44 @@
 
 /* ===== 设计 Token ===== */
 :root {
-  /* 暗色模式（默认） */
-  --color-bg-base: #000000;
-  --color-bg-surface: #0a0a0a;
-  --color-bg-elevated: #141414;
+  /* 神话/北欧暗色主题：深黑底 + 冰蓝/银白辉光 */
+  --color-bg-base: #020408;
+  --color-bg-surface: #050810;
+  --color-bg-elevated: #0a0f1a;
 
-  --color-border-subtle: rgba(255, 255, 255, 0.06);
-  --color-border-default: rgba(255, 255, 255, 0.1);
-  --color-border-strong: rgba(255, 255, 255, 0.16);
+  --color-border-subtle: rgba(125, 211, 252, 0.1);
+  --color-border-default: rgba(125, 211, 252, 0.18);
+  --color-border-strong: rgba(125, 211, 252, 0.3);
 
-  --color-text-primary: #fafafa;
-  --color-text-secondary: #a1a1aa;
-  --color-text-tertiary: #71717a;
+  --color-text-primary: #f0f9ff;
+  --color-text-secondary: #94a3b8;
+  --color-text-tertiary: #64748b;
 
-  --gradient-signature: linear-gradient(135deg, #7c5cfc 0%, #4f9cff 50%, #ff7ac6 100%);
+  --gradient-signature: linear-gradient(135deg, #22d3ee 0%, #38bdf8 50%, #818cf8 100%);
 
-  --shadow-card: 0 4px 12px rgba(0, 0, 0, 0.2);
-  --shadow-hover: 0 20px 40px rgba(0, 0, 0, 0.4);
-  --shadow-glow: 0 0 40px rgba(124, 92, 252, 0.3);
+  --shadow-card: 0 4px 12px rgba(0, 0, 0, 0.3);
+  --shadow-hover: 0 20px 40px rgba(0, 0, 0, 0.5);
+  --shadow-glow: 0 0 40px rgba(34, 211, 238, 0.25);
 }
 
 :root.light {
-  --color-bg-base: #ffffff;
-  --color-bg-surface: #fafafa;
-  --color-bg-elevated: #f4f4f5;
+  --color-bg-base: #f8fafc;
+  --color-bg-surface: #ffffff;
+  --color-bg-elevated: #f1f5f9;
 
-  --color-border-subtle: rgba(0, 0, 0, 0.06);
-  --color-border-default: rgba(0, 0, 0, 0.1);
-  --color-border-strong: rgba(0, 0, 0, 0.16);
+  --color-border-subtle: rgba(2, 132, 199, 0.08);
+  --color-border-default: rgba(2, 132, 199, 0.14);
+  --color-border-strong: rgba(2, 132, 199, 0.24);
 
-  --color-text-primary: #0a0a0a;
-  --color-text-secondary: #52525b;
-  --color-text-tertiary: #a1a1aa;
+  --color-text-primary: #0f172a;
+  --color-text-secondary: #475569;
+  --color-text-tertiary: #94a3b8;
 
-  --gradient-signature: linear-gradient(135deg, #6b4cfb 0%, #3b8bff 50%, #ff5cae 100%);
+  --gradient-signature: linear-gradient(135deg, #0891b2 0%, #0284c7 50%, #4f46e5 100%);
 
-  --shadow-card: 0 4px 12px rgba(0, 0, 0, 0.08);
-  --shadow-hover: 0 20px 40px rgba(0, 0, 0, 0.12);
-  --shadow-glow: 0 0 40px rgba(107, 76, 251, 0.2);
+  --shadow-card: 0 4px 12px rgba(0, 0, 0, 0.06);
+  --shadow-hover: 0 20px 40px rgba(0, 0, 0, 0.1);
+  --shadow-glow: 0 0 40px rgba(8, 145, 178, 0.15);
 }
 
 /* ===== 基础重置 ===== */
@@ -113,7 +113,7 @@ img {
 
 /* ===== 选中文本 ===== */
 ::selection {
-  background: rgba(124, 92, 252, 0.3);
+  background: rgba(34, 211, 238, 0.25);
   color: var(--color-text-primary);
 }
 
@@ -128,6 +128,91 @@ img {
 
   .bg-gradient {
     background: var(--gradient-signature);
+  }
+
+  /* ===== 3D 透视工具类 ===== */
+  .perspective-1000 {
+    perspective: 1000px;
+  }
+
+  .perspective-2000 {
+    perspective: 2000px;
+  }
+
+  .transform-style-3d {
+    transform-style: preserve-3d;
+  }
+
+  .backface-hidden {
+    backface-visibility: hidden;
+  }
+
+  .animate-spin-slow {
+    animation: spin-slow 60s linear infinite;
+  }
+}
+
+@keyframes spin-slow {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* 3D orbital text animations */
+@keyframes orbit-spin-y {
+  from {
+    transform: rotateY(0deg);
+  }
+  to {
+    transform: rotateY(360deg);
+  }
+}
+
+@keyframes orbit-spin-y-reverse {
+  from {
+    transform: rotateY(360deg);
+  }
+  to {
+    transform: rotateY(0deg);
+  }
+}
+
+@keyframes orbit-spin-x {
+  from {
+    transform: rotateX(0deg);
+  }
+  to {
+    transform: rotateX(360deg);
+  }
+}
+
+@keyframes orbit-spin-x-reverse {
+  from {
+    transform: rotateX(360deg);
+  }
+  to {
+    transform: rotateX(0deg);
+  }
+}
+
+@keyframes orbit-spin-z {
+  from {
+    transform: rotateZ(0deg);
+  }
+  to {
+    transform: rotateZ(360deg);
+  }
+}
+
+@keyframes orbit-spin-z-reverse {
+  from {
+    transform: rotateZ(360deg);
+  }
+  to {
+    transform: rotateZ(0deg);
   }
 }
 

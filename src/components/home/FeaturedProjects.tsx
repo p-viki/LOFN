@@ -2,6 +2,7 @@ import { motion } from 'framer-motion'
 import { Link } from 'react-router-dom'
 import { Container } from '@/ui/Container'
 import { Section } from '@/ui/Section'
+import { TiltCard } from '@/ui/TiltCard'
 import { Card } from '@/ui/Card'
 import { Badge } from '@/ui/Badge'
 import { Button } from '@/ui/Button'
@@ -28,36 +29,49 @@ export function FeaturedProjects() {
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, amount: 0.1 }}
-          className="grid grid-cols-1 md:grid-cols-3 gap-6"
+          className="grid grid-cols-1 md:grid-cols-3 gap-6 perspective-1000"
         >
           {featured.map((project) => (
             <motion.div key={project.id} variants={variants.slideUp}>
-              <Card className="h-full flex flex-col gap-4">
-                {/* Cover */}
-                <div className="aspect-video rounded-md bg-bg-elevated border border-border-subtle mb-2 overflow-hidden">
-                  <img
-                    src={project.cover}
-                    alt={project.title}
-                    className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-                    loading="lazy"
-                  />
-                </div>
+              <TiltCard maxTilt={8} glare className="h-full">
+                <Card className="h-full flex flex-col gap-4 border-0 bg-transparent shadow-none">
+                  {/* Cover */}
+                  <div
+                    className="aspect-video rounded-md bg-bg-elevated border border-border-subtle mb-2 overflow-hidden"
+                    style={{ transform: 'translateZ(30px)' }}
+                  >
+                    <img
+                      src={project.cover}
+                      alt={project.title}
+                      className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                      loading="lazy"
+                    />
+                  </div>
 
-                {/* Title */}
-                <h3 className="text-xl font-semibold text-text-primary">{project.title}</h3>
+                  {/* Title */}
+                  <h3
+                    className="text-xl font-semibold text-text-primary"
+                    style={{ transform: 'translateZ(20px)' }}
+                  >
+                    {project.title}
+                  </h3>
 
-                {/* Description */}
-                <p className="text-sm text-text-secondary leading-relaxed flex-1">
-                  {project.description}
-                </p>
+                  {/* Description */}
+                  <p
+                    className="text-sm text-text-secondary leading-relaxed flex-1"
+                    style={{ transform: 'translateZ(12px)' }}
+                  >
+                    {project.description}
+                  </p>
 
-                {/* Tags */}
-                <div className="flex flex-wrap gap-2">
-                  {project.tags.map((tag) => (
-                    <Badge key={tag}>{tag}</Badge>
-                  ))}
-                </div>
-              </Card>
+                  {/* Tags */}
+                  <div className="flex flex-wrap gap-2" style={{ transform: 'translateZ(8px)' }}>
+                    {project.tags.map((tag) => (
+                      <Badge key={tag}>{tag}</Badge>
+                    ))}
+                  </div>
+                </Card>
+              </TiltCard>
             </motion.div>
           ))}
         </motion.div>

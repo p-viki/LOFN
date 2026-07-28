@@ -6,27 +6,27 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        // 暗色模式（默认）
+        // 神话/北欧暗色主题：深黑底 + 冰蓝/银白辉光
         base: {
-          DEFAULT: '#000000',
-          surface: '#0A0A0A',
-          elevated: '#141414',
+          DEFAULT: '#020408',
+          surface: '#050810',
+          elevated: '#0a0f1a',
         },
         border: {
-          subtle: 'rgba(255,255,255,0.06)',
-          DEFAULT: 'rgba(255,255,255,0.10)',
-          strong: 'rgba(255,255,255,0.16)',
+          subtle: 'rgba(125,211,252,0.10)',
+          DEFAULT: 'rgba(125,211,252,0.18)',
+          strong: 'rgba(125,211,252,0.30)',
         },
         text: {
-          primary: '#FAFAFA',
-          secondary: '#A1A1AA',
-          tertiary: '#71717A',
+          primary: '#F0F9FF',
+          secondary: '#94A3B8',
+          tertiary: '#64748B',
         },
-        // 语义色
-        success: '#3ECF8E',
-        warning: '#F5A623',
-        error: '#FF4D4D',
-        info: '#4F9CFF',
+        // 语义色 - 冷调
+        success: '#34D399',
+        warning: '#FBBF24',
+        error: '#F87171',
+        info: '#38BDF8',
       },
       fontFamily: {
         sans: ['Inter', 'HarmonyOS Sans SC', 'Noto Sans SC', 'system-ui', 'sans-serif'],
@@ -52,10 +52,11 @@ const config: Config = {
       boxShadow: {
         card: '0 4px 12px rgba(0,0,0,0.2)',
         hover: '0 20px 40px rgba(0,0,0,0.4)',
-        glow: '0 0 40px rgba(124,92,252,0.3)',
+        glow: '0 0 40px rgba(34,211,238,0.25)',
+        'glow-strong': '0 0 60px rgba(34,211,238,0.35), 0 0 120px rgba(56,189,248,0.15)',
       },
       backgroundImage: {
-        'gradient-signature': 'linear-gradient(135deg, #7C5CFC 0%, #4F9CFF 50%, #FF7AC6 100%)',
+        'gradient-signature': 'linear-gradient(135deg, #22D3EE 0%, #38BDF8 50%, #818CF8 100%)',
       },
       animation: {
         'fade-in': 'fadeIn 0.6s ease-out forwards',
