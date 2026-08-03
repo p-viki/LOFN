@@ -7,7 +7,7 @@ export default defineConfig({
   plugins: [react()],
   // GitHub Pages 子路径部署：仓库名为 LOFN 则 base 为 /LOFN/
   // 若使用自定义域名或 <user>.github.io 仓库，改为 '/'
-  base: '/',
+  base: process.env.GITHUB_ACTIONS ? '/LOFN/' : '/',
   resolve: {
     alias: {
       '@': path.resolve(process.cwd(), 'src'),
