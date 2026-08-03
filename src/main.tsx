@@ -4,11 +4,15 @@ import { BrowserRouter } from 'react-router-dom'
 import { HelmetProvider } from 'react-helmet-async'
 import App from './App'
 import './index.css'
-
+const basename =
+  import.meta.env.PROD &&
+  window.location.hostname.includes('github.io')
+    ? '/LOFN'
+    : '/'
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
     <HelmetProvider>
-      <BrowserRouter basename="/LOFN">
+      <BrowserRouter basename={basename}>
         <App />
       </BrowserRouter>
     </HelmetProvider>
