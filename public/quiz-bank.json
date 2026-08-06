@@ -1,0 +1,116 @@
+[
+  {
+    "type": "single",
+    "submissionMode": "single",
+    "question": "CSS 中，哪个属性用于设置元素的透明度？",
+    "options": [
+      { "id": "a", "text": "opacity" },
+      { "id": "b", "text": "visibility" },
+      { "id": "c", "text": "display" },
+      { "id": "d", "text": "filter" }
+    ],
+    "correctOptionId": "a"
+  },
+  {
+    "type": "single",
+    "question": "JavaScript 中，以下哪个方法会改变原数组？",
+    "options": [
+      { "id": "a", "text": "map()" },
+      { "id": "b", "text": "filter()" },
+      { "id": "c", "text": "slice()" },
+      { "id": "d", "text": "splice()" }
+    ],
+    "correctOptionId": "d"
+  },
+  {
+    "type": "single",
+    "question": "React 中，useEffect 的依赖数组为空数组 [] 时，回调函数会在什么时候执行？",
+    "options": [
+      { "id": "a", "text": "每次渲染后都执行" },
+      { "id": "b", "text": "仅在组件挂载时执行" },
+      { "id": "c", "text": "仅在组件卸载时执行" },
+      { "id": "d", "text": "永远不执行" }
+    ],
+    "correctOptionId": "b"
+  },
+  {
+    "type": "single",
+    "question": "TypeScript 中，以下哪个类型表示「任意类型」？",
+    "options": [
+      { "id": "a", "text": "unknown" },
+      { "id": "b", "text": "any" },
+      { "id": "c", "text": "never" },
+      { "id": "d", "text": "void" }
+    ],
+    "correctOptionId": "b"
+  },
+  {
+    "type": "multiple",
+    "submissionMode": "batch",
+    "question": "以下哪些属于 HTML 块级元素（block-level elements）？",
+    "options": [
+      { "id": "a", "text": "<div>" },
+      { "id": "b", "text": "<span>" },
+      { "id": "c", "text": "<p>" },
+      { "id": "d", "text": "<section>" }
+    ],
+    "correctOptionIds": ["a", "c", "d"]
+  },
+  {
+    "type": "multiple",
+    "question": "JavaScript 中，以下哪些值在布尔上下文中会被转换为 false？",
+    "options": [
+      { "id": "a", "text": "0" },
+      { "id": "b", "text": "\"0\"" },
+      { "id": "c", "text": "null" },
+      { "id": "d", "text": "undefined" }
+    ],
+    "correctOptionIds": ["a", "c", "d"]
+  },
+  {
+    "type": "multiple",
+    "question": "Vue 3 组合式 API 中，以下哪些是响应式 API？",
+    "options": [
+      { "id": "a", "text": "ref" },
+      { "id": "b", "text": "reactive" },
+      { "id": "c", "text": "computed" },
+      { "id": "d", "text": "watch" }
+    ],
+    "correctOptionIds": ["a", "b", "c", "d"]
+  },
+  {
+    "type": "ordering",
+    "submissionMode": "batch",
+    "question": "请将以下 CSS 选择器按优先级（specificity）从低到高排序。",
+    "items": [
+      { "id": "tag", "text": "标签选择器（div）" },
+      { "id": "class", "text": "类选择器（.btn）" },
+      { "id": "id", "text": "ID 选择器（#app）" },
+      { "id": "inline", "text": "行内样式（style=\"\"）" }
+    ],
+    "correctOrder": ["tag", "class", "id", "inline"]
+  },
+  {
+    "type": "ordering",
+    "question": "请将浏览器渲染页面的主要流程按正确顺序排列。",
+    "items": [
+      { "id": "layout", "text": "布局（Layout）" },
+      { "id": "paint", "text": "绘制（Paint）" },
+      { "id": "dom", "text": "构建 DOM 树" },
+      { "id": "composite", "text": "合成（Composite）" }
+    ],
+    "correctOrder": ["dom", "layout", "paint", "composite"]
+  },
+  {
+    "type": "ordering",
+    "question": "请将 HTTP 状态码范围按从小到大的顺序排列。",
+    "items": [
+      { "id": "3xx", "text": "3xx 重定向" },
+      { "id": "1xx", "text": "1xx 信息" },
+      { "id": "5xx", "text": "5xx 服务器错误" },
+      { "id": "2xx", "text": "2xx 成功" },
+      { "id": "4xx", "text": "4xx 客户端错误" }
+    ],
+    "correctOrder": ["1xx", "2xx", "3xx", "4xx", "5xx"]
+  }
+]

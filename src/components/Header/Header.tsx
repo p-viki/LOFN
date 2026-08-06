@@ -43,7 +43,8 @@ export function Header() {
                   {isActive && (
                     <motion.div
                       layoutId="nav-indicator"
-                      className="absolute bottom-0 left-1/2 -translate-x-1/2 h-px w-8 bg-gradient"
+                      className="absolute bottom-0 h-px w-8 bg-gradient"
+                      style={{ left: 'calc(50% - 1rem)' }}
                     />
                   )}
                 </Link>
