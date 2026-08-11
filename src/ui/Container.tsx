@@ -7,6 +7,7 @@ interface ContainerProps {
   size?: 'sm' | 'md' | 'lg' | 'full'
 }
 
+// 移动端优先：小屏紧凑内边距，md 起放宽
 const sizeStyles = {
   sm: 'max-w-3xl',
   md: 'max-w-5xl',
@@ -16,6 +17,8 @@ const sizeStyles = {
 
 export function Container({ children, className, size = 'lg' }: ContainerProps) {
   return (
-    <div className={cn('mx-auto w-full px-6 md:px-8', sizeStyles[size], className)}>{children}</div>
+    <div className={cn('mx-auto w-full px-4 xs:px-5 sm:px-6 md:px-8', sizeStyles[size], className)}>
+      {children}
+    </div>
   )
 }

@@ -7,10 +7,11 @@ interface SectionProps {
   spacing?: 'sm' | 'md' | 'lg'
 }
 
+// 移动端优先：小屏紧凑间距，md 起放宽
 const spacingStyles = {
-  sm: 'py-16 md:py-20',
-  md: 'py-20 md:py-28',
-  lg: 'py-24 md:py-32',
+  sm: 'py-8 md:py-16',
+  md: 'py-12 md:py-20',
+  lg: 'py-16 md:py-24',
 }
 
 export function Section({ children, className, spacing = 'md' }: SectionProps) {

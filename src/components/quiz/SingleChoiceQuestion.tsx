@@ -45,15 +45,17 @@ export function SingleChoiceQuestion({
   const showState = submitted || showCorrectAnswer
 
   return (
-    <Card hover={false} className="space-y-6">
+    <Card hover={false} className="space-y-4 md:space-y-6">
       <div className="flex items-start gap-3">
         <span className="shrink-0 mt-0.5 px-2 py-0.5 rounded-sm bg-info/10 text-info text-xs font-mono">
           单选
         </span>
-        <h3 className="text-lg font-medium text-text-primary leading-relaxed">{question}</h3>
+        <h3 className="text-base sm:text-lg font-medium text-text-primary leading-relaxed">
+          {question}
+        </h3>
       </div>
 
-      <div className="space-y-3">
+      <div className="space-y-2.5 md:space-y-3">
         {options.map((option) => {
           const isSelected = selectedId === option.id
           const isCorrect = option.id === correctOptionId
@@ -64,8 +66,9 @@ export function SingleChoiceQuestion({
               disabled={submitted || showCorrectAnswer}
               onClick={() => handleSelect(option.id)}
               className={cn(
-                'w-full flex items-center gap-4 p-4 rounded-lg border text-left transition-all duration-300',
+                'w-full flex items-center gap-3 md:gap-4 p-3.5 md:p-4 min-h-[52px] rounded-lg border text-left transition-all duration-300',
                 'hover:bg-bg-elevated focus:outline-none focus-visible:ring-2 focus-visible:ring-info/50',
+                'active:scale-[0.99]',
                 showState && isCorrect && 'border-success bg-success/10',
                 showState && isSelected && !isCorrect && 'border-error bg-error/10',
                 !showState && isSelected && 'border-info bg-info/5 ring-1 ring-info/30',

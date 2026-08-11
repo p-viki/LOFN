@@ -8,27 +8,12 @@ export const ease = {
   inOut: [0.65, 0, 0.35, 1] as const,
 }
 
-export const spring = {
-  type: 'spring' as const,
-  stiffness: 200,
-  damping: 26,
-  mass: 0.8,
-}
-
 /**
  * 通用动画变体
  */
 export const variants = {
-  fadeIn: {
-    hidden: { opacity: 0 },
-    visible: { opacity: 1, transition: { duration: 0.6, ease: ease.out } },
-  },
   slideUp: {
     hidden: { opacity: 0, y: 24 },
-    visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: ease.out } },
-  },
-  slideDown: {
-    hidden: { opacity: 0, y: -24 },
     visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: ease.out } },
   },
   stagger: {

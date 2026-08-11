@@ -19,7 +19,6 @@ export default defineConfig({
       output: {
         manualChunks: {
           'react-vendor': ['react', 'react-dom', 'react-router-dom'],
-          'markdown-vendor': ['react-markdown', 'remark-gfm', 'rehype-highlight', 'rehype-slug'],
           'motion-vendor': ['framer-motion'],
         },
       },

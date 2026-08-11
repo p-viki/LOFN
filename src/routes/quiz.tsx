@@ -45,28 +45,36 @@ export default function QuizPage() {
       <Seo title="测试题" description="前端面试题与自测练习" />
       <Section spacing="lg">
         <Container size="lg">
-          <div className="flex items-center gap-3 mb-4">
-            <ClipboardList size={32} className="text-text-primary" />
-            <h1 className="text-display-lg font-semibold text-text-primary">测试题</h1>
+          <div className="flex items-center gap-2.5 sm:gap-3 mb-3 sm:mb-4">
+            <ClipboardList className="h-6 w-6 sm:h-8 sm:w-8 text-text-primary shrink-0" />
+            <h1 className="text-display-md md:text-display-lg font-semibold text-text-primary">
+              测试题
+            </h1>
           </div>
-          <p className="text-text-secondary mb-12">前端知识自测与面试题库练习。</p>
+          <p className="text-sm sm:text-base text-text-secondary mb-8 md:mb-12">
+            前端知识自测与面试题库练习。
+          </p>
 
           <motion.div
             variants={variants.stagger}
             initial="hidden"
             animate="visible"
-            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
+            className="grid grid-cols-1 xs:grid-cols-2 lg:grid-cols-3 gap-3.5 sm:gap-4 md:gap-6"
           >
             {categories.map((cat) => (
               <motion.div key={cat.title} variants={variants.slideUp}>
-                <Card className="group cursor-pointer">
-                  <div className="flex items-start justify-between mb-3">
-                    <h3 className="text-lg font-semibold text-text-primary">{cat.title}</h3>
-                    <span className="text-xs font-mono text-text-tertiary px-2 py-1 rounded-sm bg-bg-elevated border border-border-subtle">
+                <Card className="group cursor-pointer h-full">
+                  <div className="flex items-start justify-between mb-2.5">
+                    <h3 className="text-base sm:text-lg font-semibold text-text-primary">
+                      {cat.title}
+                    </h3>
+                    <span className="shrink-0 text-xs font-mono text-text-tertiary px-2 py-1 rounded-md bg-bg-elevated border border-border-subtle">
                       {cat.count} 题
                     </span>
                   </div>
-                  <p className="text-sm text-text-secondary">{cat.description}</p>
+                  <p className="text-xs sm:text-sm text-text-secondary leading-relaxed">
+                    {cat.description}
+                  </p>
                 </Card>
               </motion.div>
             ))}

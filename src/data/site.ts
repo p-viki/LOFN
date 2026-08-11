@@ -1,9 +1,7 @@
-import type { SiteConfig } from '@/apptypes/common'
+import type { SiteConfig } from '@/types/common'
 
 export const siteConfig: SiteConfig = {
   title: 'LOFN',
-  description: '前端工程师 / AI 开发 / 音乐创作者 - 个人作品集',
+  description: '前端测试题库 - 单选、多选、排序题型练习与自测',
   url: 'https://p-viki.github.io/LOFN',
-  author: 'LOFN',
-  locale: 'zh-CN',
 }

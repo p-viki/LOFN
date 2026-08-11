@@ -24,14 +24,3 @@ export async function fetchQuizBank(): Promise<QuizQuestion[]> {
   const data = (await response.json()) as QuizQuestion[]
   return data
 }
-
-/** 按题型筛选题目 */
-export function filterQuestionsByType(questions: QuizQuestion[], type: QuizQuestion['type']) {
-  return questions.filter((q) => q.type === type)
-}
-
-/** 获取指定数量的随机题目 */
-export function getRandomQuestions(questions: QuizQuestion[], count: number) {
-  const shuffled = [...questions].sort(() => Math.random() - 0.5)
-  return shuffled.slice(0, Math.min(count, shuffled.length))
-}

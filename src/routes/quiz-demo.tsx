@@ -162,14 +162,6 @@ export default function QuizDemoPage() {
     return { correctCount: correct, submittedCount: submitted }
   }, [singleResults, batchAnswers, batchSubmitted, questions, singleQuestions, batchQuestions])
 
-  const totalAnswered = useMemo(() => {
-    const singleAnswered = singleQuestions.filter((i) => singleResults[i]?.submitted).length
-    const batchAnswered = batchQuestions.filter((i) =>
-      isBatchAnswered(batchAnswers[i], questions[i].type)
-    ).length
-    return singleAnswered + batchAnswered
-  }, [singleQuestions, singleResults, batchQuestions, batchAnswers, questions])
-
   const allFinished = singleQuestions.every((i) => singleResults[i]?.submitted) &&
     (batchQuestions.length === 0 || batchSubmitted)
 
@@ -230,25 +222,26 @@ export default function QuizDemoPage() {
       <Section spacing="lg">
         <Container size="md">
           <Link
-            to="/tools"
-            className="inline-flex items-center gap-1.5 text-sm text-text-secondary hover:text-text-primary transition-colors mb-6"
+            to="/quiz"
+            className="inline-flex items-center gap-1.5 text-sm text-text-secondary hover:text-text-primary transition-colors mb-4 md:mb-6"
           >
-            <ArrowLeft size={16} /> 返回工具箱
+            <ArrowLeft size={18} /> 返回测试题
           </Link>
 
-          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-8">
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 sm:gap-4 mb-5 md:mb-8">
             <div>
-              <h1 className="text-2xl font-semibold text-text-primary mb-1">题库测试</h1>
+              <h1 className="text-xl sm:text-2xl font-semibold text-text-primary mb-1">题库测试</h1>
               <p className="text-sm text-text-secondary">
                 单选 / 多选 / 排序 题型组件用例，共 {questions.length} 题
               </p>
             </div>
 
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-2 w-full sm:w-auto">
               <Button
                 variant="secondary"
                 size="sm"
                 onClick={() => setShowAllAnswers((v) => !v)}
+                className="flex-1 sm:flex-none"
               >
                 {showAllAnswers ? '隐藏答案' : '显示全部答案'}
               </Button>
@@ -256,7 +249,7 @@ export default function QuizDemoPage() {
                 variant="ghost"
                 size="sm"
                 onClick={handleReset}
-                className="gap-1.5"
+                className="gap-1.5 flex-1 sm:flex-none"
               >
                 <RotateCcw size={14} /> 重置
               </Button>
@@ -272,7 +265,7 @@ export default function QuizDemoPage() {
           )}
 
           {error && (
-            <div className="mb-8 p-6 rounded-lg bg-error/5 border border-error/20 text-center">
+            <div className="mb-6 md:mb-8 p-4 md:p-6 rounded-lg bg-error/5 border border-error/20 text-center">
               <p className="text-error mb-4">{error}</p>
               <Button onClick={handleRetry} size="sm">重新加载</Button>
             </div>
@@ -281,7 +274,7 @@ export default function QuizDemoPage() {
           {!loading && !error && (
             <>
               {/* Progress summary */}
-              <div className="mb-8 p-4 rounded-lg bg-bg-elevated border border-border-subtle">
+              <div className="mb-5 md:mb-8 p-3.5 sm:p-4 rounded-lg bg-bg-elevated border border-border-subtle">
                 <div className="flex items-center justify-between mb-2">
                   <span className="text-sm text-text-secondary">答题进度</span>
                   <span className="text-sm font-mono text-text-primary">
@@ -294,7 +287,7 @@ export default function QuizDemoPage() {
                     style={{ width: `${questions.length ? (submittedCount / questions.length) * 100 : 0}%` }}
                   />
                 </div>
-                <div className="flex items-center gap-4 text-sm">
+                <div className="flex flex-wrap items-center gap-x-4 gap-y-1 text-sm">
                   <span className="flex items-center gap-1.5 text-success">
                     <CheckCircle size={16} /> {correctCount} 正确
                   </span>
@@ -314,15 +307,15 @@ export default function QuizDemoPage() {
 
               {/* Batch submit */}
               {batchQuestions.length > 0 && !batchSubmitted && !showAllAnswers && (
-                <div className="mb-8 p-4 rounded-lg border border-border-subtle bg-bg-elevated/50">
-                  <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+                <div className="mb-5 md:mb-8 p-3.5 sm:p-4 rounded-lg border border-border-subtle bg-bg-elevated/50">
+                  <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
                     <div>
                       <p className="text-sm text-text-primary font-medium mb-1">批量提交题目</p>
                       <p className="text-xs text-text-secondary">
                         已作答 {batchQuestions.filter((i) => isBatchAnswered(batchAnswers[i], questions[i].type)).length} / {batchQuestions.length} 题
                       </p>
                     </div>
-                    <div className="flex flex-col items-start sm:items-end gap-2">
+                    <div className="flex flex-col items-stretch sm:items-end gap-2">
                       {batchError && (
                         <span className="flex items-center gap-1.5 text-xs text-error">
                           <AlertCircle size={14} /> {batchError}
@@ -337,7 +330,7 @@ export default function QuizDemoPage() {
               )}
 
               {/* Questions */}
-              <div className="space-y-6">
+              <div className="space-y-4 md:space-y-6">
                 {questions.map((q, index) => renderQuestion(q, index))}
               </div>
             </>

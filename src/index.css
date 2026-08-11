@@ -1,5 +1,3 @@
-@import './styles/markdown.css';
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -20,10 +18,6 @@
   --color-text-tertiary: #64748b;
 
   --gradient-signature: linear-gradient(135deg, #22d3ee 0%, #38bdf8 50%, #818cf8 100%);
-
-  --shadow-card: 0 4px 12px rgba(0, 0, 0, 0.3);
-  --shadow-hover: 0 20px 40px rgba(0, 0, 0, 0.5);
-  --shadow-glow: 0 0 40px rgba(34, 211, 238, 0.25);
 }
 
 :root.light {
@@ -40,10 +34,6 @@
   --color-text-tertiary: #94a3b8;
 
   --gradient-signature: linear-gradient(135deg, #0891b2 0%, #0284c7 50%, #4f46e5 100%);
-
-  --shadow-card: 0 4px 12px rgba(0, 0, 0, 0.06);
-  --shadow-hover: 0 20px 40px rgba(0, 0, 0, 0.1);
-  --shadow-glow: 0 0 40px rgba(8, 145, 178, 0.15);
 }
 
 /* ===== 基础重置 ===== */
@@ -59,14 +49,28 @@ html {
   scroll-behavior: smooth;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  /* 移动端：适配 viewport 单位（dvh 用于 iOS 地址栏收缩） */
+  min-height: 100%;
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
 }
 
 body {
-  font-family: 'Inter', 'HarmonyOS Sans SC', 'Noto Sans SC', system-ui, sans-serif;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'PingFang SC', 'HarmonyOS Sans SC',
+    'Noto Sans SC', 'Microsoft YaHei', system-ui, sans-serif;
+  font-size: 16px;
+  line-height: 1.6;
   background-color: var(--color-bg-base);
   color: var(--color-text-primary);
   transition: background-color 0.3s ease, color 0.3s ease;
   overflow-x: hidden;
+  -webkit-tap-highlight-color: transparent;
+}
+
+#root {
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
 }
 
 a {
@@ -79,11 +83,15 @@ button {
   cursor: pointer;
   border: none;
   background: none;
+  /* 移动端：不产生双击缩放 */
+  touch-action: manipulation;
 }
 
 input,
-textarea {
+textarea,
+select {
   font-family: inherit;
+  font-size: 16px; /* 防止 iOS 聚焦自动缩放 */
 }
 
 img {
@@ -92,7 +100,20 @@ img {
   display: block;
 }
 
-/* ===== 滚动条 ===== */
+/* ===== 移动端触摸优化：可点击元素最小触达区域 ===== */
+button,
+[role='button'],
+a {
+  min-height: 44px;
+}
+
+/* 允许图标/内联元素等保持紧凑，避免过度约束 */
+button[aria-label],
+[role='button'][aria-label] {
+  min-width: 44px;
+}
+
+/* ===== 滚动条（桌面端显示，移动端隐藏） ===== */
 ::-webkit-scrollbar {
   width: 6px;
   height: 6px;
@@ -111,108 +132,23 @@ img {
   background: var(--color-border-strong);
 }
 
+/* 移动端隐藏滚动条以保持清爽 */
+@media (pointer: coarse) {
+  ::-webkit-scrollbar {
+    display: none;
+  }
+}
+
 /* ===== 选中文本 ===== */
 ::selection {
   background: rgba(34, 211, 238, 0.25);
   color: var(--color-text-primary);
 }
 
-/* ===== 渐变文字工具类 ===== */
+/* ===== 渐变工具类 ===== */
 @layer utilities {
-  .text-gradient {
-    background: var(--gradient-signature);
-    -webkit-background-clip: text;
-    background-clip: text;
-    -webkit-text-fill-color: transparent;
-  }
-
   .bg-gradient {
     background: var(--gradient-signature);
-  }
-
-  /* ===== 3D 透视工具类 ===== */
-  .perspective-1000 {
-    perspective: 1000px;
-  }
-
-  .perspective-2000 {
-    perspective: 2000px;
-  }
-
-  .transform-style-3d {
-    transform-style: preserve-3d;
-  }
-
-  .backface-hidden {
-    backface-visibility: hidden;
-  }
-
-  .animate-spin-slow {
-    animation: spin-slow 60s linear infinite;
-  }
-}
-
-@keyframes spin-slow {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
-
-/* 3D orbital text animations */
-@keyframes orbit-spin-y {
-  from {
-    transform: rotateY(0deg);
-  }
-  to {
-    transform: rotateY(360deg);
-  }
-}
-
-@keyframes orbit-spin-y-reverse {
-  from {
-    transform: rotateY(360deg);
-  }
-  to {
-    transform: rotateY(0deg);
-  }
-}
-
-@keyframes orbit-spin-x {
-  from {
-    transform: rotateX(0deg);
-  }
-  to {
-    transform: rotateX(360deg);
-  }
-}
-
-@keyframes orbit-spin-x-reverse {
-  from {
-    transform: rotateX(360deg);
-  }
-  to {
-    transform: rotateX(0deg);
-  }
-}
-
-@keyframes orbit-spin-z {
-  from {
-    transform: rotateZ(0deg);
-  }
-  to {
-    transform: rotateZ(360deg);
-  }
-}
-
-@keyframes orbit-spin-z-reverse {
-  from {
-    transform: rotateZ(360deg);
-  }
-  to {
-    transform: rotateZ(0deg);
   }
 }
 

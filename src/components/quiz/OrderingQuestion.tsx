@@ -66,7 +66,7 @@ function SortableItem({
       ref={setNodeRef}
       style={style}
       className={cn(
-        'flex items-center gap-3 p-3 rounded-lg border transition-all duration-200',
+        'flex items-center gap-3 p-3 min-h-[52px] rounded-lg border transition-all duration-200',
         'select-none touch-none',
         showState && isCorrectPosition && 'border-success bg-success/10',
         showState && isWrongPosition && 'border-error bg-error/10',
@@ -209,12 +209,14 @@ export function OrderingQuestion({
   }
 
   return (
-    <Card hover={false} className="space-y-6">
+    <Card hover={false} className="space-y-4 md:space-y-6">
       <div className="flex items-start gap-3">
         <span className="shrink-0 mt-0.5 px-2 py-0.5 rounded-sm bg-purple-500/10 text-purple-500 text-xs font-mono">
           排序
         </span>
-        <h3 className="text-lg font-medium text-text-primary leading-relaxed">{question}</h3>
+        <h3 className="text-base sm:text-lg font-medium text-text-primary leading-relaxed">
+          {question}
+        </h3>
       </div>
 
       <DndContext
