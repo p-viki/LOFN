@@ -150,6 +150,109 @@ button[aria-label],
   .bg-gradient {
     background: var(--gradient-signature);
   }
+
+  .text-gradient {
+    background: var(--gradient-signature);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+  }
+
+  /* ===== 3D 透视工具类 ===== */
+  .perspective-1000 {
+    perspective: 1000px;
+  }
+
+  .preserve-3d {
+    transform-style: preserve-3d;
+  }
+
+  /* ===== 渐变发光边框（测试辅助用） ===== */
+  .glow-border {
+    border: 1px solid transparent;
+    background:
+      linear-gradient(var(--color-bg-surface), var(--color-bg-surface)) padding-box,
+      var(--gradient-signature) border-box;
+    box-shadow:
+      0 0 12px rgba(34, 211, 238, 0.25),
+      0 0 32px rgba(56, 189, 248, 0.15);
+    animation: glow-pulse 2.4s ease-in-out infinite;
+  }
+
+  .glow-border:hover {
+    box-shadow:
+      0 0 16px rgba(34, 211, 238, 0.4),
+      0 0 44px rgba(56, 189, 248, 0.25);
+  }
+}
+
+@keyframes glow-pulse {
+  0%,
+  100% {
+    box-shadow:
+      0 0 10px rgba(34, 211, 238, 0.2),
+      0 0 26px rgba(56, 189, 248, 0.12);
+  }
+  50% {
+    box-shadow:
+      0 0 14px rgba(34, 211, 238, 0.35),
+      0 0 40px rgba(56, 189, 248, 0.22);
+  }
+}
+
+/* ===== 3D 文字环绕 ===== */
+.orbit-layer {
+  --orbit-radius: clamp(120px, 36vw, 280px);
+  --orbit-duration: 30s;
+  --orbit-tilt: -16deg;
+  --orbit-direction: normal;
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+  perspective: 1000px;
+}
+
+.orbit-ring {
+  position: relative;
+  width: calc(var(--orbit-radius) * 2);
+  height: calc(var(--orbit-radius) * 2);
+  transform: rotateX(var(--orbit-tilt));
+  animation: orbit-spin var(--orbit-duration) linear infinite;
+  animation-direction: var(--orbit-direction);
+  will-change: transform;
+}
+
+.orbit-word {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  white-space: nowrap;
+  padding: 0.5em 1.1em;
+  font-size: 13px;
+  letter-spacing: 0.08em;
+  color: var(--color-text-secondary);
+  background: var(--color-bg-elevated);
+  border: 1px solid var(--color-border-default);
+  border-radius: 9999px;
+  box-shadow: 0 0 20px rgba(34, 211, 238, 0.12);
+  /* 顺序关键：先平移让元素中心对齐圆心，再 rotateY 分布角度 + translateZ 沿轨道外移 */
+  transform: translate(-50%, -50%) rotateY(var(--angle, 0deg))
+    translateZ(var(--orbit-radius));
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+
+@keyframes orbit-spin {
+  from {
+    transform: rotateX(var(--orbit-tilt)) rotateY(0deg);
+  }
+  to {
+    transform: rotateX(var(--orbit-tilt)) rotateY(360deg);
+  }
 }
 
 /* ===== 减少动画偏好 ===== */

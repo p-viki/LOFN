@@ -203,9 +203,8 @@ export function OrderingQuestion({
 
   const handleSubmit = () => {
     if (submitted || isBatch) return
-    const isCorrect = order.every((id, index) => id === correctOrder[index])
     setSubmitted(true)
-    onSubmit?.(isCorrect)
+    onSubmit?.(order)
   }
 
   return (

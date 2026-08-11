@@ -40,11 +40,8 @@ export function MultipleChoiceQuestion({
 
   const handleSubmit = () => {
     if (selectedIds.length === 0 || submitted || isBatch) return
-    const correct =
-      selectedIds.length === correctOptionIds.length &&
-      selectedIds.every((id) => correctOptionIds.includes(id))
     setSubmitted(true)
-    onSubmit?.(correct)
+    onSubmit?.(selectedIds)
   }
 
   const showState = submitted || showCorrectAnswer

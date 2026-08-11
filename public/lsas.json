@@ -1,0 +1,467 @@
+{
+  "meta": {
+    "title": "Liebowitz 社交焦虑量表",
+    "description": "基于 LSAS 双轴评估模型的社交状态自评量表。24 个场景各拆分为「内心体感」与「行为应对」两题，请选择最符合你真实情况的描述。",
+    "scoring": {
+      "mode": "lsas"
+    }
+  },
+  "questions": [
+    {
+      "id": 1,
+      "subscale": "si",
+      "scenario": "在公共场合使用电话",
+      "fearQuestion": "需要在人群中使用电话时，你的身体和内心是什么感觉？",
+      "fearOptions": [
+        { "value": 0, "text": "状态如常，和平时没什么两样" },
+        { "value": 1, "text": "稍有局促，说话时会留意周围的目光" },
+        { "value": 2, "text": "心跳加快、声音发紧，脑子里会反复想着别人在听" },
+        { "value": 3, "text": "强烈抗拒，手抖心慌，几乎无法正常组织语言" }
+      ],
+      "avoidanceQuestion": "对于在公共场合打电话这件事，你通常怎么做？",
+      "avoidanceOptions": [
+        { "value": 0, "text": "想打就打，不会特意选地方" },
+        { "value": 1, "text": "偶尔会等周围安静一点或人少一些再打" },
+        { "value": 2, "text": "经常找理由走到没人的角落才打" },
+        { "value": 3, "text": "基本不在公共场合打，宁可改发消息" }
+      ]
+    },
+    {
+      "id": 2,
+      "subscale": "si",
+      "scenario": "参加小组活动",
+      "fearQuestion": "加入一个小组参与讨论时，你内心是什么感受？",
+      "fearOptions": [
+        { "value": 0, "text": "轻松自在，能自然融入" },
+        { "value": 1, "text": "略有拘谨，需要先观察一会儿才放开" },
+        { "value": 2, "text": "心跳加速、手心冒汗，担心自己说错话" },
+        { "value": 3, "text": "如坐针毡，大脑空白，只想尽快结束" }
+      ],
+      "avoidanceQuestion": "面对小组活动的邀请，你通常怎么处理？",
+      "avoidanceOptions": [
+        { "value": 0, "text": "欣然参加，主动融入" },
+        { "value": 1, "text": "会参加，但尽量少发言" },
+        { "value": 2, "text": "经常找借口推掉或迟到早退" },
+        { "value": 3, "text": "基本不参加小组类活动" }
+      ]
+    },
+    {
+      "id": 3,
+      "subscale": "ps",
+      "scenario": "在公共场合吃东西",
+      "fearQuestion": "在公共场合进食时，你身体的感受如何？",
+      "fearOptions": [
+        { "value": 0, "text": "自然进食，无特别感觉" },
+        { "value": 1, "text": "稍微不自在，吃得比平时慢" },
+        { "value": 2, "text": "担心姿态或声响被注意，咽不下去、浑身不自在" },
+        { "value": 3, "text": "几乎无法在旁人面前进食，手抖到拿不稳餐具" }
+      ],
+      "avoidanceQuestion": "对于在公共场合吃东西，你通常怎么做？",
+      "avoidanceOptions": [
+        { "value": 0, "text": "正常进食，不介意场合" },
+        { "value": 1, "text": "会吃，但挑人少的角落" },
+        { "value": 2, "text": "经常推迟到人少时，或选择外带" },
+        { "value": 3, "text": "基本不在公共场合吃东西" }
+      ]
+    },
+    {
+      "id": 4,
+      "subscale": "ps",
+      "scenario": "在公共场合与人一起喝饮料",
+      "fearQuestion": "在他人面前举杯喝饮料时，你的感受如何？",
+      "fearOptions": [
+        { "value": 0, "text": "很自然，无特别感觉" },
+        { "value": 1, "text": "略有留意，动作比平时拘谨" },
+        { "value": 2, "text": "担心手抖洒出或被盯着看，心里发紧" },
+        { "value": 3, "text": "极度不自在，宁可一口不喝" }
+      ],
+      "avoidanceQuestion": "对于公共场合喝饮料，你通常怎么做？",
+      "avoidanceOptions": [
+        { "value": 0, "text": "想喝就喝，不在意旁人" },
+        { "value": 1, "text": "会喝，但动作放轻" },
+        { "value": 2, "text": "经常婉拒，或找没人注意时才喝" },
+        { "value": 3, "text": "基本不在外人面前喝饮料" }
+      ]
+    },
+    {
+      "id": 5,
+      "subscale": "si",
+      "scenario": "与权威人士交谈",
+      "fearQuestion": "与领导、长辈或权威人物交谈时，你的状态如何？",
+      "fearOptions": [
+        { "value": 0, "text": "从容应对，自然交流" },
+        { "value": 1, "text": "略有紧张，说话前会先措辞" },
+        { "value": 2, "text": "手心出汗、声音发颤，脑子转不过弯" },
+        { "value": 3, "text": "非常畏惧，心跳剧烈，几乎说不出完整的话" }
+      ],
+      "avoidanceQuestion": "需要与权威人士沟通时，你通常怎么做？",
+      "avoidanceOptions": [
+        { "value": 0, "text": "主动沟通，需要就谈" },
+        { "value": 1, "text": "会沟通，但尽量简短" },
+        { "value": 2, "text": "经常让别人代传话，或拖到最后" },
+        { "value": 3, "text": "基本回避与权威人士的交谈" }
+      ]
+    },
+    {
+      "id": 6,
+      "subscale": "ps",
+      "scenario": "在观众面前表演、演讲或行动",
+      "fearQuestion": "在观众面前发言或展示时，你的身体反应如何？",
+      "fearOptions": [
+        { "value": 0, "text": "从容大方，表现自然" },
+        { "value": 1, "text": "稍有紧张，但能正常进行" },
+        { "value": 2, "text": "心慌手抖、声音打颤，担心忘词出错" },
+        { "value": 3, "text": "极度恐惧，大脑空白，身体发僵" }
+      ],
+      "avoidanceQuestion": "面对需要在众人面前表现的场合，你通常怎么做？",
+      "avoidanceOptions": [
+        { "value": 0, "text": "主动争取表现机会" },
+        { "value": 1, "text": "会接受，但提前反复演练" },
+        { "value": 2, "text": "经常推辞，让给他人" },
+        { "value": 3, "text": "基本回避任何当众表现" }
+      ]
+    },
+    {
+      "id": 7,
+      "subscale": "ps",
+      "scenario": "参加聚会",
+      "fearQuestion": "参加聚会时，你内心的状态如何？",
+      "fearOptions": [
+        { "value": 0, "text": "放松投入，享受气氛" },
+        { "value": 1, "text": "略有拘谨，需要时间热身" },
+        { "value": 2, "text": "局促不安，担心没人理或说错话" },
+        { "value": 3, "text": "非常煎熬，全程都想离开" }
+      ],
+      "avoidanceQuestion": "面对聚会的邀请，你通常怎么处理？",
+      "avoidanceOptions": [
+        { "value": 0, "text": "积极参加" },
+        { "value": 1, "text": "会去，但和熟人多待一起" },
+        { "value": 2, "text": "经常找借口不参加" },
+        { "value": 3, "text": "基本不参加聚会" }
+      ]
+    },
+    {
+      "id": 8,
+      "subscale": "si",
+      "scenario": "在别人注视下工作",
+      "fearQuestion": "有人盯着你工作时，你的状态如何？",
+      "fearOptions": [
+        { "value": 0, "text": "照常工作，不受影响" },
+        { "value": 1, "text": "略微不自在，动作会变慢" },
+        { "value": 2, "text": "担心出错被评价，手脚僵硬" },
+        { "value": 3, "text": "无法集中注意力，几乎没法继续" }
+      ],
+      "avoidanceQuestion": "对于被人注视的工作场合，你通常怎么做？",
+      "avoidanceOptions": [
+        { "value": 0, "text": "无所谓，正常工作" },
+        { "value": 1, "text": "会工作，但尽量背过身去" },
+        { "value": 2, "text": "经常选没人时再做" },
+        { "value": 3, "text": "基本回避这类场景" }
+      ]
+    },
+    {
+      "id": 9,
+      "subscale": "si",
+      "scenario": "在别人注视下写字",
+      "fearQuestion": "有人看着你写字时，你的感受如何？",
+      "fearOptions": [
+        { "value": 0, "text": "正常书写，无特别感觉" },
+        { "value": 1, "text": "略有紧张，字迹会不自觉变形" },
+        { "value": 2, "text": "手抖得写不稳，担心写得难看" },
+        { "value": 3, "text": "几乎无法在注视下书写" }
+      ],
+      "avoidanceQuestion": "对于被人注视的书写场景，你通常怎么做？",
+      "avoidanceOptions": [
+        { "value": 0, "text": "无所谓，照常书写" },
+        { "value": 1, "text": "会写，但尽量避开目光" },
+        { "value": 2, "text": "经常先记下来，再找没人时写" },
+        { "value": 3, "text": "基本回避在注视下写字" }
+      ]
+    },
+    {
+      "id": 10,
+      "subscale": "si",
+      "scenario": "给不太熟悉的人打电话",
+      "fearQuestion": "给不太熟的人打电话前，你的状态如何？",
+      "fearOptions": [
+        { "value": 0, "text": "直接就打，很自然" },
+        { "value": 1, "text": "会先想想说什么，略有紧张" },
+        { "value": 2, "text": "拨号前反复犹豫，心怦怦跳" },
+        { "value": 3, "text": "非常抗拒，能不打就不打" }
+      ],
+      "avoidanceQuestion": "需要给不太熟的人打电话时，你通常怎么做？",
+      "avoidanceOptions": [
+        { "value": 0, "text": "直接拨打" },
+        { "value": 1, "text": "会打，但先备好草稿" },
+        { "value": 2, "text": "经常改发消息替代" },
+        { "value": 3, "text": "基本不主动打这类电话" }
+      ]
+    },
+    {
+      "id": 11,
+      "subscale": "si",
+      "scenario": "与不太熟悉的人交谈",
+      "fearQuestion": "与不太熟的人闲聊时，你的状态如何？",
+      "fearOptions": [
+        { "value": 0, "text": "自然随意，能聊起来" },
+        { "value": 1, "text": "略有紧张，话题容易枯竭" },
+        { "value": 2, "text": "担心冷场或说错，坐立不安" },
+        { "value": 3, "text": "极其煎熬，恨不得马上结束" }
+      ],
+      "avoidanceQuestion": "遇到需要与不太熟的人交谈时，你通常怎么做？",
+      "avoidanceOptions": [
+        { "value": 0, "text": "主动开启话题" },
+        { "value": 1, "text": "会应酬几句，尽量简短" },
+        { "value": 2, "text": "经常借故离开或找熟人挡" },
+        { "value": 3, "text": "基本回避这类交谈" }
+      ]
+    },
+    {
+      "id": 12,
+      "subscale": "si",
+      "scenario": "与陌生人会面",
+      "fearQuestion": "初次见到陌生人时，你内心的感受如何？",
+      "fearOptions": [
+        { "value": 0, "text": "平常心，从容介绍自己" },
+        { "value": 1, "text": "略有拘谨，需要时间适应" },
+        { "value": 2, "text": "担心给对方留下坏印象，紧张出汗" },
+        { "value": 3, "text": "极度不自在，只盼快点结束" }
+      ],
+      "avoidanceQuestion": "面对需要认识新人的场合，你通常怎么做？",
+      "avoidanceOptions": [
+        { "value": 0, "text": "主动认识" },
+        { "value": 1, "text": "会认识，但话不多" },
+        { "value": 2, "text": "经常回避或躲在熟人旁边" },
+        { "value": 3, "text": "基本不主动结识陌生人" }
+      ]
+    },
+    {
+      "id": 13,
+      "subscale": "ps",
+      "scenario": "在公共卫生间方便",
+      "fearQuestion": "公共卫生间里有人时，你的状态如何？",
+      "fearOptions": [
+        { "value": 0, "text": "自然使用，不受影响" },
+        { "value": 1, "text": "略有紧张，会稍微分心" },
+        { "value": 2, "text": "担心被听到或被看，憋着都难以放松" },
+        { "value": 3, "text": "极度紧张，根本没法在有人时方便" }
+      ],
+      "avoidanceQuestion": "对于公共卫生间有人在场的情况，你通常怎么做？",
+      "avoidanceOptions": [
+        { "value": 0, "text": "直接使用，不在意" },
+        { "value": 1, "text": "会用，但心里有点在意" },
+        { "value": 2, "text": "经常等没人了才进去" },
+        { "value": 3, "text": "基本回避公共卫生间" }
+      ]
+    },
+    {
+      "id": 14,
+      "subscale": "si",
+      "scenario": "进入一个已有人就座的房间",
+      "fearQuestion": "走进一个大家已就座、都在看你的房间时，你的感受如何？",
+      "fearOptions": [
+        { "value": 0, "text": "坦然走进去" },
+        { "value": 1, "text": "略不自在，会加快脚步" },
+        { "value": 2, "text": "心跳加快，感觉大家都在盯着自己" },
+        { "value": 3, "text": "非常抗拒，宁愿在门口等着" }
+      ],
+      "avoidanceQuestion": "面对要进入已有人就座房间的场合，你通常怎么做？",
+      "avoidanceOptions": [
+        { "value": 0, "text": "直接推门进去" },
+        { "value": 1, "text": "会进，但低头快速落座" },
+        { "value": 2, "text": "经常在门口犹豫很久" },
+        { "value": 3, "text": "基本回避这类场合" }
+      ]
+    },
+    {
+      "id": 15,
+      "subscale": "ps",
+      "scenario": "成为众人注意的焦点",
+      "fearQuestion": "所有人的目光都落在你身上时，你的状态如何？",
+      "fearOptions": [
+        { "value": 0, "text": "坦然自若" },
+        { "value": 1, "text": "稍有紧张，但能稳住" },
+        { "value": 2, "text": "面红耳赤、手足无措" },
+        { "value": 3, "text": "极度煎熬，恨不得消失" }
+      ],
+      "avoidanceQuestion": "对于可能成为众人焦点的场合，你通常怎么做？",
+      "avoidanceOptions": [
+        { "value": 0, "text": "不避讳，甚至乐于表现" },
+        { "value": 1, "text": "会接受，但不太自在" },
+        { "value": 2, "text": "经常主动躲开焦点位置" },
+        { "value": 3, "text": "基本回避任何可能被注意的场合" }
+      ]
+    },
+    {
+      "id": 16,
+      "subscale": "ps",
+      "scenario": "在会议上发言",
+      "fearQuestion": "在会议上开口发言时，你的身体和内心状态如何？",
+      "fearOptions": [
+        { "value": 0, "text": "从容发言，逻辑清晰" },
+        { "value": 1, "text": "略有紧张，语速会变快" },
+        { "value": 2, "text": "心慌手抖、声音发颤，怕说错被议论" },
+        { "value": 3, "text": "恐惧发言，脑子一片空白" }
+      ],
+      "avoidanceQuestion": "面对会议上需要发言的情况，你通常怎么做？",
+      "avoidanceOptions": [
+        { "value": 0, "text": "主动发言" },
+        { "value": 1, "text": "会发言，但尽量简短" },
+        { "value": 2, "text": "经常等别人先说，自己尽量不说" },
+        { "value": 3, "text": "基本不在会议上开口" }
+      ]
+    },
+    {
+      "id": 17,
+      "subscale": "ps",
+      "scenario": "参加考试或测验",
+      "fearQuestion": "考试或测验时，你的状态如何？",
+      "fearOptions": [
+        { "value": 0, "text": "正常发挥" },
+        { "value": 1, "text": "稍有紧张，但不影响作答" },
+        { "value": 2, "text": "心慌手抖，担心做不完或被比下去" },
+        { "value": 3, "text": "非常焦虑，头脑空白无法思考" }
+      ],
+      "avoidanceQuestion": "面对考试或测验，你通常怎么应对？",
+      "avoidanceOptions": [
+        { "value": 0, "text": "正常应考" },
+        { "value": 1, "text": "会应考，但会比较焦虑" },
+        { "value": 2, "text": "经常拖延、临阵磨枪" },
+        { "value": 3, "text": "尽量避免参加考试" }
+      ]
+    },
+    {
+      "id": 18,
+      "subscale": "ps",
+      "scenario": "对不太熟悉的人表达不同意见或不满",
+      "fearQuestion": "需要向不太熟的人提出异议时，你的状态如何？",
+      "fearOptions": [
+        { "value": 0, "text": "坦然表达" },
+        { "value": 1, "text": "会表达，但会斟酌措辞" },
+        { "value": 2, "text": "担心惹恼对方，话到嘴边又咽回去" },
+        { "value": 3, "text": "非常抗拒，宁可自己受委屈" }
+      ],
+      "avoidanceQuestion": "遇到需要表达不同意见时，你通常怎么做？",
+      "avoidanceOptions": [
+        { "value": 0, "text": "直接表达" },
+        { "value": 1, "text": "会表达，但尽量委婉" },
+        { "value": 2, "text": "经常憋着不说，事后后悔" },
+        { "value": 3, "text": "基本不表达异议" }
+      ]
+    },
+    {
+      "id": 19,
+      "subscale": "si",
+      "scenario": "与不太熟悉的人进行眼神交流",
+      "fearQuestion": "与不太熟的人对视时，你的状态如何？",
+      "fearOptions": [
+        { "value": 0, "text": "自然对视" },
+        { "value": 1, "text": "会短暂对视，然后移开" },
+        { "value": 2, "text": "眼神躲闪，觉得被看穿" },
+        { "value": 3, "text": "极度不自在，完全不敢看对方" }
+      ],
+      "avoidanceQuestion": "对于眼神交流，你通常怎么做？",
+      "avoidanceOptions": [
+        { "value": 0, "text": "正常对视交流" },
+        { "value": 1, "text": "会看，但时不时避开" },
+        { "value": 2, "text": "经常只盯着别处" },
+        { "value": 3, "text": "基本回避任何对视" }
+      ]
+    },
+    {
+      "id": 20,
+      "subscale": "ps",
+      "scenario": "在小组中作口头报告",
+      "fearQuestion": "在小组里作口头报告时，你的状态如何？",
+      "fearOptions": [
+        { "value": 0, "text": "自如汇报" },
+        { "value": 1, "text": "略有紧张，但能完成" },
+        { "value": 2, "text": "心慌手抖，怕讲砸了被笑话" },
+        { "value": 3, "text": "极度恐惧，身体发僵" }
+      ],
+      "avoidanceQuestion": "面对需要口头报告的场合，你通常怎么做？",
+      "avoidanceOptions": [
+        { "value": 0, "text": "主动承担" },
+        { "value": 1, "text": "会做，但提前准备很久" },
+        { "value": 2, "text": "经常推给别人" },
+        { "value": 3, "text": "基本回避口头报告" }
+      ]
+    },
+    {
+      "id": 21,
+      "subscale": "ps",
+      "scenario": "试着结识他人",
+      "fearQuestion": "主动结识一个新朋友时，你内心的状态如何？",
+      "fearOptions": [
+        { "value": 0, "text": "大方自然" },
+        { "value": 1, "text": "略有紧张，会先鼓鼓劲" },
+        { "value": 2, "text": "担心被拒绝，紧张到手心冒汗" },
+        { "value": 3, "text": "非常抗拒主动搭讪" }
+      ],
+      "avoidanceQuestion": "面对结识新朋友的场合，你通常怎么做？",
+      "avoidanceOptions": [
+        { "value": 0, "text": "主动去认识" },
+        { "value": 1, "text": "会尝试，但比较被动" },
+        { "value": 2, "text": "经常等对方先开口" },
+        { "value": 3, "text": "基本不主动结识" }
+      ]
+    },
+    {
+      "id": 22,
+      "subscale": "ps",
+      "scenario": "去商店退换商品",
+      "fearQuestion": "需要到商店退换商品时，你的状态如何？",
+      "fearOptions": [
+        { "value": 0, "text": "坦然前往" },
+        { "value": 1, "text": "略有紧张，会先想好怎么说" },
+        { "value": 2, "text": "担心被为难，反复犹豫要不要去" },
+        { "value": 3, "text": "非常抗拒，宁可吃亏也不去" }
+      ],
+      "avoidanceQuestion": "遇到需要退换商品时，你通常怎么做？",
+      "avoidanceOptions": [
+        { "value": 0, "text": "直接去退换" },
+        { "value": 1, "text": "会去，但做好心理准备" },
+        { "value": 2, "text": "经常拖到无法退换为止" },
+        { "value": 3, "text": "基本不主动退换" }
+      ]
+    },
+    {
+      "id": 23,
+      "subscale": "ps",
+      "scenario": "举办聚会或招待客人",
+      "fearQuestion": "自己举办聚会、招待客人时，你的状态如何？",
+      "fearOptions": [
+        { "value": 0, "text": "乐于招待" },
+        { "value": 1, "text": "略有紧张，但能张罗" },
+        { "value": 2, "text": "担心冷场或招待不周，心里七上八下" },
+        { "value": 3, "text": "非常抗拒举办聚会" }
+      ],
+      "avoidanceQuestion": "面对举办聚会或招待客人的事，你通常怎么做？",
+      "avoidanceOptions": [
+        { "value": 0, "text": "主动张罗" },
+        { "value": 1, "text": "会举办，但规模尽量小" },
+        { "value": 2, "text": "经常推给别人办" },
+        { "value": 3, "text": "基本不举办聚会" }
+      ]
+    },
+    {
+      "id": 24,
+      "subscale": "si",
+      "scenario": "拒绝推销员的高压推销",
+      "fearQuestion": "面对推销员反复推销时，你内心的状态如何？",
+      "fearOptions": [
+        { "value": 0, "text": "坚定回绝，毫无压力" },
+        { "value": 1, "text": "能拒绝，但心里有些过意不去" },
+        { "value": 2, "text": "浑身不自在，不知如何开口拒绝" },
+        { "value": 3, "text": "非常难受，几乎无法说出拒绝的话" }
+      ],
+      "avoidanceQuestion": "面对高压推销时，你通常怎么做？",
+      "avoidanceOptions": [
+        { "value": 0, "text": "直接拒绝" },
+        { "value": 1, "text": "会拒绝，但语气比较软" },
+        { "value": 2, "text": "经常买下不需要的东西" },
+        { "value": 3, "text": "只能回避，绕开走或躲起来" }
+      ]
+    }
+  ]
+}

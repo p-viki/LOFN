@@ -9,16 +9,15 @@ import {
   SingleChoiceQuestion,
   MultipleChoiceQuestion,
   OrderingQuestion,
+  ScoreResult,
 } from '@/components/quiz'
-import { fetchQuizBank, type QuizQuestion } from '@/data/quizBank'
-import { cn } from '@/utils/cn'
+import { fetchQuizBank, type QuizQuestion, type QuizBankMeta } from '@/data/quizBank'
+import { calculateBankScore, isFullyCorrect, type QuizAnswer } from '@/lib/scoring'
 
 type SingleAnswer = string | null
 type MultipleAnswer = string[]
 type OrderingAnswer = string[]
 type BatchAnswer = SingleAnswer | MultipleAnswer | OrderingAnswer
-
-type SingleResult = { submitted: boolean; correct: boolean }
 
 function isBatchQuestion(q: QuizQuestion) {
   return q.submissionMode !== 'single'
@@ -31,39 +30,39 @@ function isBatchAnswered(answer: BatchAnswer | undefined, type: QuizQuestion['ty
   return Array.isArray(answer) && answer.length > 0
 }
 
-function checkCorrect(q: QuizQuestion, answer: BatchAnswer): boolean {
-  switch (q.type) {
-    case 'single':
-      return (answer as SingleAnswer) === q.correctOptionId
-    case 'multiple': {
-      const ids = answer as MultipleAnswer
-      return ids.length === q.correctOptionIds.length &&
-        ids.every((id) => q.correctOptionIds.includes(id))
-    }
-    case 'ordering': {
-      const order = answer as OrderingAnswer
-      return order.length === q.correctOrder.length &&
-        order.every((id, index) => id === q.correctOrder[index])
-    }
-  }
-}
-
 export default function QuizDemoPage() {
   const [questions, setQuestions] = useState<QuizQuestion[]>([])
+  const [bankMeta, setBankMeta] = useState<QuizBankMeta | null>(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
-  const [singleResults, setSingleResults] = useState<Record<number, SingleResult>>({})
+  const [singleAnswers, setSingleAnswers] = useState<Record<number, QuizAnswer>>({})
   const [batchAnswers, setBatchAnswers] = useState<Record<number, BatchAnswer>>({})
   const [batchSubmitted, setBatchSubmitted] = useState(false)
   const [showAllAnswers, setShowAllAnswers] = useState(false)
   const [batchError, setBatchError] = useState<string | null>(null)
+
+  const loadBank = () => {
+    setLoading(true)
+    setError(null)
+    return fetchQuizBank()
+      .then((data) => {
+        setQuestions(data.questions)
+        setBankMeta(data.meta)
+        setLoading(false)
+      })
+      .catch((err) => {
+        setError(err instanceof Error ? err.message : '加载题库失败')
+        setLoading(false)
+      })
+  }
 
   useEffect(() => {
     let cancelled = false
     fetchQuizBank()
       .then((data) => {
         if (!cancelled) {
-          setQuestions(data)
+          setQuestions(data.questions)
+          setBankMeta(data.meta)
           setLoading(false)
         }
       })
@@ -86,11 +85,8 @@ export default function QuizDemoPage() {
     return { batchQuestions: batch, singleQuestions: single }
   }, [questions])
 
-  const handleSingleSubmit = (index: number, correct: boolean) => {
-    setSingleResults((prev) => ({
-      ...prev,
-      [index]: { submitted: true, correct },
-    }))
+  const handleSingleSubmit = (index: number, answer: string | string[]) => {
+    setSingleAnswers((prev) => ({ ...prev, [index]: answer }))
   }
 
   const handleBatchChange = (index: number, answer: BatchAnswer) => {
@@ -117,58 +113,61 @@ export default function QuizDemoPage() {
   }
 
   const handleReset = () => {
-    setSingleResults({})
+    setSingleAnswers({})
     setBatchAnswers({})
     setBatchSubmitted(false)
     setShowAllAnswers(false)
     setBatchError(null)
   }
 
-  const handleRetry = () => {
-    setError(null)
-    setLoading(true)
-    fetchQuizBank()
-      .then((data) => {
-        setQuestions(data)
-        setLoading(false)
-      })
-      .catch((err) => {
-        setError(err instanceof Error ? err.message : '加载题库失败')
-        setLoading(false)
-      })
-  }
+  const handleRetry = () => loadBank()
 
+  // 所有已提交的答案（单题模式 + 批量模式）
+  const allAnswers = useMemo(() => {
+    const answers: Record<number, QuizAnswer | undefined> = { ...singleAnswers }
+    if (batchSubmitted) {
+      batchQuestions.forEach((index) => {
+        answers[index] = batchAnswers[index] as QuizAnswer | undefined
+      })
+    }
+    return answers
+  }, [singleAnswers, batchAnswers, batchSubmitted, batchQuestions])
+
+  // 进度统计（答对题数 / 已答题数）
   const { correctCount, submittedCount } = useMemo(() => {
     let correct = 0
     let submitted = 0
 
     singleQuestions.forEach((index) => {
-      const result = singleResults[index]
-      if (result?.submitted) {
+      if (singleAnswers[index] !== undefined) {
         submitted += 1
-        if (result.correct) correct += 1
+        if (isFullyCorrect(questions[index], singleAnswers[index]!)) correct += 1
       }
     })
 
     if (batchSubmitted) {
       batchQuestions.forEach((index) => {
         submitted += 1
-        if (checkCorrect(questions[index], batchAnswers[index]!)) {
-          correct += 1
-        }
+        if (isFullyCorrect(questions[index], batchAnswers[index]!)) correct += 1
       })
     }
 
     return { correctCount: correct, submittedCount: submitted }
-  }, [singleResults, batchAnswers, batchSubmitted, questions, singleQuestions, batchQuestions])
+  }, [singleAnswers, batchAnswers, batchSubmitted, questions, singleQuestions, batchQuestions])
 
-  const allFinished = singleQuestions.every((i) => singleResults[i]?.submitted) &&
+  const allFinished = singleQuestions.every((i) => singleAnswers[i] !== undefined) &&
     (batchQuestions.length === 0 || batchSubmitted)
+
+  // 最终计分结果（百分制）
+  const scoreResult = useMemo(() => {
+    if (!allFinished || !bankMeta) return null
+    return calculateBankScore(questions, allAnswers, bankMeta.scoring)
+  }, [allFinished, bankMeta, questions, allAnswers])
 
   const renderQuestion = (q: QuizQuestion, index: number) => {
     const key = `q-${index}`
     const isBatch = isBatchQuestion(q)
-    const showCorrect = showAllAnswers || (isBatch && batchSubmitted) || (!isBatch && singleResults[index]?.submitted)
+    const showCorrect = showAllAnswers || (isBatch && batchSubmitted) || (!isBatch && singleAnswers[index] !== undefined)
 
     switch (q.type) {
       case 'single':
@@ -179,9 +178,10 @@ export default function QuizDemoPage() {
             options={q.options}
             correctOptionId={q.correctOptionId}
             submissionMode={q.submissionMode}
+            points={q.points}
             value={isBatch ? (batchAnswers[index] as SingleAnswer ?? null) : undefined}
             onChange={isBatch ? (id) => handleBatchChange(index, id) : undefined}
-            onSubmit={!isBatch ? (correct) => handleSingleSubmit(index, correct) : undefined}
+            onSubmit={!isBatch ? (answer) => handleSingleSubmit(index, answer) : undefined}
             showCorrectAnswer={showCorrect}
           />
         )
@@ -193,9 +193,10 @@ export default function QuizDemoPage() {
             options={q.options}
             correctOptionIds={q.correctOptionIds}
             submissionMode={q.submissionMode}
+            points={q.points}
             value={isBatch ? (batchAnswers[index] as MultipleAnswer ?? []) : undefined}
             onChange={isBatch ? (ids) => handleBatchChange(index, ids) : undefined}
-            onSubmit={!isBatch ? (correct) => handleSingleSubmit(index, correct) : undefined}
+            onSubmit={!isBatch ? (answer) => handleSingleSubmit(index, answer) : undefined}
             showCorrectAnswer={showCorrect}
           />
         )
@@ -207,9 +208,10 @@ export default function QuizDemoPage() {
             items={q.items}
             correctOrder={q.correctOrder}
             submissionMode={q.submissionMode}
+            points={q.points}
             value={isBatch ? (batchAnswers[index] as OrderingAnswer ?? q.items.map((i) => i.id)) : undefined}
             onChange={isBatch ? (order) => handleBatchChange(index, order) : undefined}
-            onSubmit={!isBatch ? (correct) => handleSingleSubmit(index, correct) : undefined}
+            onSubmit={!isBatch ? (answer) => handleSingleSubmit(index, answer) : undefined}
             showCorrectAnswer={showCorrect}
           />
         )
@@ -230,9 +232,11 @@ export default function QuizDemoPage() {
 
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 sm:gap-4 mb-5 md:mb-8">
             <div>
-              <h1 className="text-xl sm:text-2xl font-semibold text-text-primary mb-1">题库测试</h1>
+              <h1 className="text-xl sm:text-2xl font-semibold text-text-primary mb-1">
+                {bankMeta?.title ?? '题库测试'}
+              </h1>
               <p className="text-sm text-text-secondary">
-                单选 / 多选 / 排序 题型组件用例，共 {questions.length} 题
+                {bankMeta?.description ?? '单选 / 多选 / 排序 题型组件用例'}，共 {questions.length} 题
               </p>
             </div>
 
@@ -273,37 +277,42 @@ export default function QuizDemoPage() {
 
           {!loading && !error && (
             <>
+              {/* 最终得分 */}
+              {scoreResult && (
+                <div className="mb-6 md:mb-8">
+                  <ScoreResult result={scoreResult} onReset={handleReset} />
+                </div>
+              )}
+
               {/* Progress summary */}
-              <div className="mb-5 md:mb-8 p-3.5 sm:p-4 rounded-lg bg-bg-elevated border border-border-subtle">
-                <div className="flex items-center justify-between mb-2">
-                  <span className="text-sm text-text-secondary">答题进度</span>
-                  <span className="text-sm font-mono text-text-primary">
-                    {submittedCount} / {questions.length}
-                  </span>
+              {!scoreResult && (
+                <div className="mb-5 md:mb-8 p-3.5 sm:p-4 rounded-lg bg-bg-elevated border border-border-subtle">
+                  <div className="flex items-center justify-between mb-2">
+                    <span className="text-sm text-text-secondary">答题进度</span>
+                    <span className="text-sm font-mono text-text-primary">
+                      {submittedCount} / {questions.length}
+                    </span>
+                  </div>
+                  <div className="h-2 rounded-full bg-bg-surface overflow-hidden mb-3">
+                    <div
+                      className="h-full bg-gradient rounded-full transition-all duration-500"
+                      style={{ width: `${questions.length ? (submittedCount / questions.length) * 100 : 0}%` }}
+                    />
+                  </div>
+                  <div className="flex flex-wrap items-center gap-x-4 gap-y-1 text-sm">
+                    <span className="flex items-center gap-1.5 text-success">
+                      <CheckCircle size={16} /> {correctCount} 正确
+                    </span>
+                    <span className="flex items-center gap-1.5 text-error">
+                      <XCircle size={16} /> {submittedCount - correctCount} 错误
+                    </span>
+                    <span className="ml-auto text-sm font-medium text-text-tertiary">
+                      计分方式：
+                      {bankMeta?.scoring.mode === 'weighted' ? '按选项分值' : '全对全错'}
+                    </span>
+                  </div>
                 </div>
-                <div className="h-2 rounded-full bg-bg-surface overflow-hidden mb-3">
-                  <div
-                    className="h-full bg-gradient rounded-full transition-all duration-500"
-                    style={{ width: `${questions.length ? (submittedCount / questions.length) * 100 : 0}%` }}
-                  />
-                </div>
-                <div className="flex flex-wrap items-center gap-x-4 gap-y-1 text-sm">
-                  <span className="flex items-center gap-1.5 text-success">
-                    <CheckCircle size={16} /> {correctCount} 正确
-                  </span>
-                  <span className="flex items-center gap-1.5 text-error">
-                    <XCircle size={16} /> {submittedCount - correctCount} 错误
-                  </span>
-                  <span className={cn(
-                    'ml-auto font-medium',
-                    allFinished ? 'text-text-primary' : 'text-text-tertiary'
-                  )}>
-                    {allFinished
-                      ? `得分: ${Math.round((correctCount / questions.length) * 100)}`
-                      : '未完成'}
-                  </span>
-                </div>
-              </div>
+              )}
 
               {/* Batch submit */}
               {batchQuestions.length > 0 && !batchSubmitted && !showAllAnswers && (
