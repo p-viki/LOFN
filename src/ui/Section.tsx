@@ -15,5 +15,5 @@ const spacingStyles = {
 }
 
 export function Section({ children, className, spacing = 'md' }: SectionProps) {
-  return <section className={cn(spacingStyles[spacing], className)}>{children}</section>
+  return <section className={cn('lofn-section', spacingStyles[spacing], className)}>{children}</section>
 }

@@ -66,6 +66,7 @@ function SortableItem({
       ref={setNodeRef}
       style={style}
       className={cn(
+        'lofn-ordering-item',
         'flex items-center gap-3 p-3 min-h-[52px] rounded-lg border transition-all duration-200',
         'select-none touch-none',
         showState && isCorrectPosition && 'border-success bg-success/10',
@@ -208,7 +209,7 @@ export function OrderingQuestion({
   }
 
   return (
-    <Card hover={false} className="space-y-4 md:space-y-6">
+    <Card hover={false} className="lofn-question-ordering space-y-4 md:space-y-6">
       <div className="flex items-start gap-3">
         <span className="shrink-0 mt-0.5 px-2 py-0.5 rounded-sm bg-purple-500/10 text-purple-500 text-xs font-mono">
           排序

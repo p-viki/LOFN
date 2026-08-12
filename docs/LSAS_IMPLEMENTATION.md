@@ -16,9 +16,9 @@
 
 | 文件 | 路径 | 职责 |
 |------|------|------|
-| 量表作答页 | `src/routes/lsas.tsx` | `/lsas` 路由页面：加载题库、作答、进度展示、提交校验、结果报告 |
-| 题库列表入口 | `src/routes/quiz.tsx` | 在「测试题」页新增 LSAS 量表卡片，点击跳转 `/lsas` |
-| 路由注册 | `src/App.tsx` | 新增 `<Route path="lsas" element={<LsasPage />} />` |
+| 量表作答页 | `src/routes/lsas.tsx` | `/quiz/lsas` 路由页面：加载题库、作答、进度展示、提交校验、结果报告 |
+| 题库列表入口 | `src/routes/quiz.tsx` | 在「测试题」页新增 LSAS 量表卡片，点击跳转 `/quiz/lsas` |
+| 路由注册 | `src/App.tsx` | 新增 `<Route path="quiz/lsas" element={<LsasPage />} />` |
 
 ### 1.2 题库数据层
 
@@ -255,7 +255,7 @@ LsasReport      ← 环形总分 + 因子得分卡 + 等级解读 + 免责声明
 - `npm run typecheck` ✅
 - `npm run build` ✅（1921 modules）
 - lint 无错误
-- 访问路径：首页 `/` → 测试题 `/quiz` → 「LSAS 社交焦虑量表」卡片 → `/lsas`
+- 访问路径：首页 `/` → 测试题 `/quiz` → 「LSAS 社交焦虑量表」卡片 → `/quiz/lsas`
 
 
 

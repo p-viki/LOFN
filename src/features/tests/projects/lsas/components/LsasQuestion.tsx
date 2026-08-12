@@ -1,7 +1,7 @@
 import { cn } from '@/utils/cn'
 import { Card } from '@/ui/Card'
-import { OptionList } from './OptionList'
-import type { LsasQuestionProps, LsasAnswer } from './types'
+import { OptionList } from '../../../components/OptionList'
+import type { LsasQuestionProps, LsasAnswer } from '../types'
 
 /**
  * LSAS 量表单场景：每个场景拆分为「内心体感题」与「行为应对题」两个子题。
@@ -34,7 +34,7 @@ export function LsasQuestion({
   }
 
   return (
-    <Card hover={false} className="space-y-4">
+    <Card hover={false} className="lofn-question-lsas space-y-4">
       <div className="flex items-start gap-3">
         <span
           className={cn(
@@ -64,7 +64,7 @@ export function LsasQuestion({
 
       <div className="space-y-4">
         {/* 内心体感子题 */}
-        <div className="rounded-lg border border-border-subtle bg-bg-elevated/20 p-3.5 sm:p-4">
+        <div className="lofn-question-sub lofn-question-sub-fear rounded-lg border border-border-subtle bg-bg-elevated/20 p-3.5 sm:p-4">
           <div className="flex items-center justify-between mb-2">
             <p className="text-xs text-text-secondary flex items-center gap-1.5">
               <span className="w-1.5 h-1.5 rounded-full bg-info" />
@@ -84,7 +84,7 @@ export function LsasQuestion({
         </div>
 
         {/* 行为应对子题 */}
-        <div className="rounded-lg border border-border-subtle bg-bg-elevated/20 p-3.5 sm:p-4">
+        <div className="lofn-question-sub lofn-question-sub-avoidance rounded-lg border border-border-subtle bg-bg-elevated/20 p-3.5 sm:p-4">
           <div className="flex items-center justify-between mb-2">
             <p className="text-xs text-text-secondary flex items-center gap-1.5">
               <span className="w-1.5 h-1.5 rounded-full bg-purple-400" />

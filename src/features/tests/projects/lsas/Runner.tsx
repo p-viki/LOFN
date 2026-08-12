@@ -1,20 +1,22 @@
 import { useState, useEffect, useMemo } from 'react'
-import { ArrowLeft, RotateCcw, Loader2, AlertCircle, ClipboardList, Wand2, Copy, Check } from 'lucide-react'
+import { ArrowLeft, ArrowRight, RotateCcw, Loader2, AlertCircle, ClipboardList, Wand2, Copy, Check } from 'lucide-react'
 import { Link } from 'react-router-dom'
+import { AnimatePresence, motion } from 'framer-motion'
 import { Container } from '@/ui/Container'
 import { Section } from '@/ui/Section'
 import { Button } from '@/ui/Button'
 import { Seo } from '@/components/seo/Seo'
-import { LsasQuestion, LsasReport } from '@/components/quiz'
-import type { LsasAnswer } from '@/components/quiz'
-import { fetchLsasBank } from '@/data/quizBank'
-import type { LsasBank } from '@/data/quizBank'
-import { getLsasScore } from '@/lib/scoring-lsas'
+import { LsasQuestion } from './components/LsasQuestion'
+import { LsasReport } from './report/LsasReport'
+import type { LsasAnswer } from './types'
+import { fetchLsasBank, type LsasBank } from './data'
+import { getLsasScore } from './lib/scoring'
 import { isDev } from '@/lib/dev'
 
-export default function LsasPage() {
+export function LsasRunner() {
   const [bank, setBank] = useState<LsasBank | null>(null)
   const [answers, setAnswers] = useState<Record<number, LsasAnswer>>({})
+  const [currentIndex, setCurrentIndex] = useState(0)
   const [submitted, setSubmitted] = useState(false)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
@@ -43,10 +45,30 @@ export default function LsasPage() {
   const handleChange = (index: number, answer: LsasAnswer) => {
     setAnswers((prev) => ({ ...prev, [index]: answer }))
     setSubmitError(null)
+    // 当前题已完整作答（恐惧/焦虑 + 回避 均已选择）时，自动进入下一题
+    const questions = bank?.questions ?? []
+    if (
+      questions.length > 0 &&
+      index === questions[currentIndex].id &&
+      answer.fear != null &&
+      answer.avoidance != null
+    ) {
+      setCurrentIndex((cur) => Math.min(cur + 1, questions.length - 1))
+    }
   }
 
   const isAnswered = (answer: LsasAnswer | undefined) =>
     answer != null && answer.fear != null && answer.avoidance != null
+
+  const handlePrev = () => setCurrentIndex((cur) => Math.max(cur - 1, 0))
+
+  const handleNext = () => {
+    const questions = bank?.questions ?? []
+    const q = questions[currentIndex]
+    if (q && isAnswered(answers[q.id])) {
+      setCurrentIndex((cur) => Math.min(cur + 1, questions.length - 1))
+    }
+  }
 
   const answeredCount = useMemo(() => {
     if (!bank) return 0
@@ -65,6 +87,7 @@ export default function LsasPage() {
 
   const handleReset = () => {
     setAnswers({})
+    setCurrentIndex(0)
     setSubmitted(false)
     setSubmitError(null)
     setCopied(false)
@@ -109,14 +132,15 @@ export default function LsasPage() {
   }, [bank, submitted, answers])
 
   const total = bank?.questions.length ?? 0
+  const current = bank?.questions[currentIndex]
 
   return (
     <>
       <Seo title="LSAS 社交焦虑量表" description="Liebowitz 社交焦虑量表自评" />
-      <Section spacing="lg">
+      <Section spacing="lg" className="lofn-lsas">
         <Container size="md">
           <Link
-            to="/quiz"
+            to="/tests"
             className="inline-flex items-center gap-1.5 text-sm text-text-secondary hover:text-text-primary transition-colors mb-4 md:mb-6"
           >
             <ArrowLeft size={18} /> 返回测试题
@@ -162,7 +186,7 @@ export default function LsasPage() {
             </div>
           )}
 
-          {!loading && !error && bank && (
+          {!loading && !error && bank && current && (
             <>
               {/* 报告 */}
               {scoreResult && (
@@ -196,51 +220,85 @@ export default function LsasPage() {
               {!scoreResult && (
                 <>
                   {/* 进度 */}
-                  <div className="mb-5 md:mb-8 p-3.5 sm:p-4 rounded-lg bg-bg-elevated border border-border-subtle">
+                  <div className="lofn-lsas-progress mb-5 md:mb-8 p-3.5 sm:p-4 rounded-lg bg-bg-elevated border border-border-subtle">
                     <div className="flex items-center justify-between mb-2">
-                      <span className="text-sm text-text-secondary">作答进度</span>
+                      <span className="text-sm text-text-secondary">第 {currentIndex + 1} / {total} 个场景</span>
                       <span className="text-sm font-mono text-text-primary">
-                        {answeredCount} / {total}
+                        已答 {answeredCount} / {total}
                       </span>
                     </div>
                     <div className="h-2 rounded-full bg-bg-surface overflow-hidden mb-3">
                       <div
                         className="h-full bg-gradient rounded-full transition-all duration-500"
-                        style={{ width: `${total ? (answeredCount / total) * 100 : 0}%` }}
+                        style={{ width: `${total ? ((currentIndex + 1) / total) * 100 : 0}%` }}
                       />
                     </div>
                     <p className="text-xs text-text-tertiary">
-                      每个场景请分别评估「恐惧/焦虑」和「回避」两个维度。
+                      选择选项后自动进入下一题，也可通过下方按钮自由切换；每个场景请分别评估「恐惧/焦虑」和「回避」两个维度。
                     </p>
                   </div>
 
-                  {/* 题目列表 */}
-                  <div className="space-y-4 md:space-y-6">
-                    {bank.questions.map((q) => (
+                  {/* 当前题目（一次一题） */}
+                  <AnimatePresence mode="wait">
+                    <motion.div
+                      key={current.id}
+                      className="lofn-lsas-question"
+                      initial={{ opacity: 0, x: 24 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      exit={{ opacity: 0, x: -24 }}
+                      transition={{ duration: 0.2 }}
+                    >
                       <LsasQuestion
-                        key={q.id}
-                        scenario={`${q.id}. ${q.scenario}`}
-                        subscale={q.subscale}
-                        fearQuestion={q.fearQuestion}
-                        fearOptions={q.fearOptions}
-                        avoidanceQuestion={q.avoidanceQuestion}
-                        avoidanceOptions={q.avoidanceOptions}
-                        value={answers[q.id]}
-                        onChange={(answer) => handleChange(q.id, answer)}
+                        scenario={`${current.id}. ${current.scenario}`}
+                        subscale={current.subscale}
+                        fearQuestion={current.fearQuestion}
+                        fearOptions={current.fearOptions}
+                        avoidanceQuestion={current.avoidanceQuestion}
+                        avoidanceOptions={current.avoidanceOptions}
+                        value={answers[current.id]}
+                        onChange={(answer) => handleChange(current.id, answer)}
                       />
-                    ))}
-                  </div>
+                    </motion.div>
+                  </AnimatePresence>
 
-                  {/* 提交 */}
-                  <div className="mt-8 flex flex-col items-center gap-3">
+                  {/* 导航：上一题 / 下一题（需完成当前题） / 最后一题提交 */}
+                  <div className="lofn-lsas-nav mt-8 flex flex-col items-center gap-4">
                     {submitError && (
                       <span className="flex items-center gap-1.5 text-sm text-error">
                         <AlertCircle size={14} /> {submitError}
                       </span>
                     )}
-                    <Button size="lg" onClick={handleSubmit} className="w-full sm:w-auto">
-                      提交并查看结果
-                    </Button>
+                    <div className="flex flex-wrap items-center justify-center gap-3 w-full sm:w-auto">
+                      <Button
+                        variant="secondary"
+                        size="lg"
+                        onClick={handlePrev}
+                        disabled={currentIndex === 0}
+                        className="w-full sm:w-auto"
+                      >
+                        <ArrowLeft size={18} /> 上一题
+                      </Button>
+
+                      {currentIndex < total - 1 ? (
+                        <Button
+                          size="lg"
+                          onClick={handleNext}
+                          disabled={!isAnswered(answers[current.id])}
+                          className="w-full sm:w-auto gap-1.5"
+                        >
+                          下一题 <ArrowRight size={18} />
+                        </Button>
+                      ) : (
+                        <Button size="lg" onClick={handleSubmit} className="w-full sm:w-auto">
+                          提交并查看结果
+                        </Button>
+                      )}
+                    </div>
+
+                    {currentIndex < total - 1 && !isAnswered(answers[current.id]) && (
+                      <p className="text-xs text-text-tertiary">完成当前场景后再继续下一题</p>
+                    )}
+
                     <button
                       onClick={handleReset}
                       className="inline-flex items-center gap-1.5 text-sm text-text-secondary hover:text-text-primary transition-colors min-h-[44px] px-2"
@@ -257,3 +315,5 @@ export default function LsasPage() {
     </>
   )
 }
+
+export default LsasRunner

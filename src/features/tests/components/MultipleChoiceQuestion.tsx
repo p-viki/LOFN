@@ -50,7 +50,7 @@ export function MultipleChoiceQuestion({
     selectedIds.every((id) => correctOptionIds.includes(id))
 
   return (
-    <Card hover={false} className="space-y-4 md:space-y-6">
+    <Card hover={false} className="lofn-question-multiple space-y-4 md:space-y-6">
       <div className="flex items-start gap-3">
         <span className="shrink-0 mt-0.5 px-2 py-0.5 rounded-sm bg-warning/10 text-warning text-xs font-mono">
           多选
@@ -71,6 +71,7 @@ export function MultipleChoiceQuestion({
               disabled={submitted || showCorrectAnswer}
               onClick={() => toggleOption(option.id)}
               className={cn(
+                'lofn-option-item',
                 'w-full flex items-center gap-3 md:gap-4 p-3.5 md:p-4 min-h-[52px] rounded-lg border text-left transition-all duration-300',
                 'hover:bg-bg-elevated focus:outline-none focus-visible:ring-2 focus-visible:ring-info/50',
                 'active:scale-[0.99]',

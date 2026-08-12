@@ -10,9 +10,10 @@ import {
   MultipleChoiceQuestion,
   OrderingQuestion,
   ScoreResult,
-} from '@/components/quiz'
-import { fetchQuizBank, type QuizQuestion, type QuizBankMeta } from '@/data/quizBank'
-import { calculateBankScore, isFullyCorrect, type QuizAnswer } from '@/lib/scoring'
+} from '../../components'
+import { fetchQuizBank, type QuizBankMeta } from './data'
+import { calculateBankScore, isFullyCorrect, type QuizAnswer } from '../../lib/scoring'
+import type { QuizQuestion } from '../../types'
 
 type SingleAnswer = string | null
 type MultipleAnswer = string[]
@@ -30,7 +31,7 @@ function isBatchAnswered(answer: BatchAnswer | undefined, type: QuizQuestion['ty
   return Array.isArray(answer) && answer.length > 0
 }
 
-export default function QuizDemoPage() {
+export function QuizDemoRunner() {
   const [questions, setQuestions] = useState<QuizQuestion[]>([])
   const [bankMeta, setBankMeta] = useState<QuizBankMeta | null>(null)
   const [loading, setLoading] = useState(true)
@@ -221,10 +222,10 @@ export default function QuizDemoPage() {
   return (
     <>
       <Seo title="题库测试" description="测试题组件用例展示" />
-      <Section spacing="lg">
+      <Section spacing="lg" className="lofn-quiz-demo">
         <Container size="md">
           <Link
-            to="/quiz"
+            to="/tests"
             className="inline-flex items-center gap-1.5 text-sm text-text-secondary hover:text-text-primary transition-colors mb-4 md:mb-6"
           >
             <ArrowLeft size={18} /> 返回测试题
@@ -286,7 +287,7 @@ export default function QuizDemoPage() {
 
               {/* Progress summary */}
               {!scoreResult && (
-                <div className="mb-5 md:mb-8 p-3.5 sm:p-4 rounded-lg bg-bg-elevated border border-border-subtle">
+                <div className="lofn-quiz-demo-progress mb-5 md:mb-8 p-3.5 sm:p-4 rounded-lg bg-bg-elevated border border-border-subtle">
                   <div className="flex items-center justify-between mb-2">
                     <span className="text-sm text-text-secondary">答题进度</span>
                     <span className="text-sm font-mono text-text-primary">
@@ -316,7 +317,7 @@ export default function QuizDemoPage() {
 
               {/* Batch submit */}
               {batchQuestions.length > 0 && !batchSubmitted && !showAllAnswers && (
-                <div className="mb-5 md:mb-8 p-3.5 sm:p-4 rounded-lg border border-border-subtle bg-bg-elevated/50">
+                <div className="lofn-quiz-demo-batch mb-5 md:mb-8 p-3.5 sm:p-4 rounded-lg border border-border-subtle bg-bg-elevated/50">
                   <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
                     <div>
                       <p className="text-sm text-text-primary font-medium mb-1">批量提交题目</p>
@@ -339,7 +340,7 @@ export default function QuizDemoPage() {
               )}
 
               {/* Questions */}
-              <div className="space-y-4 md:space-y-6">
+              <div className="lofn-quiz-demo-questions space-y-4 md:space-y-6">
                 {questions.map((q, index) => renderQuestion(q, index))}
               </div>
             </>
@@ -349,3 +350,5 @@ export default function QuizDemoPage() {
     </>
   )
 }
+
+export default QuizDemoRunner

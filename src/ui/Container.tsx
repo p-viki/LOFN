@@ -17,7 +17,7 @@ const sizeStyles = {
 
 export function Container({ children, className, size = 'lg' }: ContainerProps) {
   return (
-    <div className={cn('mx-auto w-full px-4 xs:px-5 sm:px-6 md:px-8', sizeStyles[size], className)}>
+    <div className={cn('lofn-container mx-auto w-full px-4 xs:px-5 sm:px-6 md:px-8', sizeStyles[size], className)}>
       {children}
     </div>
   )

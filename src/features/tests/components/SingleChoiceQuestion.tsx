@@ -48,7 +48,7 @@ export function SingleChoiceQuestion({
   const showState = !isPureChoice && (submitted || showCorrectAnswer)
 
   return (
-    <Card hover={false} className="space-y-4 md:space-y-6">
+    <Card hover={false} className="lofn-question-single space-y-4 md:space-y-6">
       <div className="flex items-start gap-3">
         <span className="shrink-0 mt-0.5 px-2 py-0.5 rounded-sm bg-info/10 text-info text-xs font-mono">
           {badge}

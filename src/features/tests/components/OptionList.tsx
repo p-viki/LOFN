@@ -33,6 +33,7 @@ export function OptionList({
   return (
     <div
       className={cn(
+        'lofn-option-list',
         layout === 'vertical' ? 'space-y-2.5 md:space-y-3' : 'grid grid-cols-2 xs:grid-cols-4 gap-2',
         className
       )}
@@ -49,6 +50,7 @@ export function OptionList({
             onClick={() => onSelect(option.id)}
             aria-pressed={isSelected}
             className={cn(
+              'lofn-option-item',
               'flex items-center text-left transition-all duration-300',
               'focus:outline-none focus-visible:ring-2 focus-visible:ring-info/50',
               'active:scale-[0.99]',

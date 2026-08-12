@@ -1,5 +1,5 @@
-import type { ScoringMode } from '@/components/quiz'
-import type { QuizQuestion } from '@/data/quizBank'
+import type { ScoringMode } from '../components/types'
+import type { QuizQuestion } from '../types'
 
 /** 题库计分配置（定义在题库数据的 meta.scoring 中） */
 export interface ScoringConfig {

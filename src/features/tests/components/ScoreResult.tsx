@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { motion, animate } from 'framer-motion'
 import { CheckCircle, XCircle, MinusCircle, Trophy, Award, RotateCcw, ChevronDown } from 'lucide-react'
-import type { BankScoreResult } from '@/lib/scoring'
+import type { BankScoreResult } from '../lib/scoring'
 import { cn } from '@/utils/cn'
 
 interface ScoreResultProps {
@@ -37,7 +37,7 @@ export function ScoreResult({ result, onReset }: ScoreResultProps) {
       initial={{ opacity: 0, y: 24 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
-      className="rounded-lg border border-border-subtle bg-bg-surface overflow-hidden"
+      className="lofn-score-result rounded-lg border border-border-subtle bg-bg-surface overflow-hidden"
     >
       <div className="flex flex-col sm:flex-row sm:items-center gap-6 p-5 sm:p-8">
         {/* 环形得分 */}
