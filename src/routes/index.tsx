@@ -49,10 +49,10 @@ export default function HomePage() {
     <>
       <Seo title="LOFN · Explore Yourself" description="心理学测试、游戏与文章 - 探索更好的自己" />
 
-      <div className="lofn-home relative min-h-[100dvh] flex flex-col items-center justify-center overflow-hidden px-4 py-16">
+      <div className="lofn-home">
         {/* 背景光晕 */}
-        <div aria-hidden className="lofn-home-glow absolute inset-0 pointer-events-none">
-          <div className="absolute left-1/2 top-[30%] -translate-x-1/2 -translate-y-1/2 w-[80vw] h-[80vw] max-w-[640px] max-h-[640px] rounded-full bg-info/10 blur-3xl" />
+        <div aria-hidden className="lofn-home-glow">
+          <div className="lofn-home-glow__blob" />
         </div>
 
         {/* 中心标题 */}
@@ -60,21 +60,15 @@ export default function HomePage() {
           variants={variants.stagger}
           initial="hidden"
           animate="visible"
-          className="lofn-home-hero relative z-10 text-center mt-8 sm:mt-10"
+          className="lofn-home-hero"
         >
           {/* 3D 环绕文字：仅环绕标题区域 */}
           <OrbitalRing words={ORBIT_WORDS} radius="clamp(100px, 26vw, 180px)" duration={32} />
 
-          <motion.h1
-            variants={variants.slideUp}
-            className="lofn-home-title text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-semibold tracking-tight text-gradient"
-          >
+          <motion.h1 variants={variants.slideUp} className="lofn-home-title">
             LOFN
           </motion.h1>
-          <motion.p
-            variants={variants.slideUp}
-            className="mt-3 sm:mt-4 text-base sm:text-lg md:text-xl text-text-secondary tracking-wide"
-          >
+          <motion.p variants={variants.slideUp} className="lofn-home-subtitle">
             Explore Yourself
           </motion.p>
         </motion.div>
@@ -84,28 +78,23 @@ export default function HomePage() {
           variants={variants.stagger}
           initial="hidden"
           animate="visible"
-          className="lofn-home-modules relative z-10 w-full max-w-2xl mt-12 sm:mt-16 space-y-3"
+          className="lofn-home-modules"
         >
           {MODULES.map((module) => {
             const Icon = module.icon
             if (module.available) {
               return (
                 <motion.div key={module.key} variants={variants.slideUp}>
-                  <Link to={module.to} className="block group">
-                    <Card hover className="flex items-center gap-4 p-4 sm:p-5">
-                      <span className="shrink-0 w-11 h-11 flex items-center justify-center rounded-lg bg-info/10 text-info">
+                  <Link to={module.to} className="lofn-home-module">
+                    <Card hover className="lofn-home-module__card">
+                      <span className="lofn-home-module__icon">
                         <Icon size={22} />
                       </span>
-                      <div className="flex-1 text-left">
-                        <h2 className="text-base sm:text-lg font-semibold text-text-primary">
-                          {module.title}
-                        </h2>
-                        <p className="text-sm text-text-secondary">{module.description}</p>
+                      <div className="lofn-home-module__content">
+                        <h2 className="lofn-home-module__title">{module.title}</h2>
+                        <p className="lofn-home-module__desc">{module.description}</p>
                       </div>
-                      <ArrowRight
-                        size={18}
-                        className="shrink-0 text-info transition-transform duration-300 group-hover:translate-x-1"
-                      />
+                      <ArrowRight size={18} className="lofn-home-module__arrow" />
                     </Card>
                   </Link>
                 </motion.div>
@@ -113,19 +102,15 @@ export default function HomePage() {
             }
             return (
               <motion.div key={module.key} variants={variants.slideUp}>
-                <Card className="flex items-center gap-4 p-4 sm:p-5 opacity-60">
-                  <span className="shrink-0 w-11 h-11 flex items-center justify-center rounded-lg bg-bg-elevated text-text-tertiary">
+                <Card hover={false} className="lofn-home-module__card lofn-home-module__card--disabled">
+                  <span className="lofn-home-module__icon lofn-home-module__icon--disabled">
                     <Icon size={22} />
                   </span>
-                  <div className="flex-1 text-left">
-                    <h2 className="text-base sm:text-lg font-semibold text-text-primary">
-                      {module.title}
-                    </h2>
-                    <p className="text-sm text-text-secondary">{module.description}</p>
+                  <div className="lofn-home-module__content">
+                    <h2 className="lofn-home-module__title">{module.title}</h2>
+                    <p className="lofn-home-module__desc">{module.description}</p>
                   </div>
-                  <span className="shrink-0 text-xs text-text-tertiary border border-border-subtle rounded-md px-2 py-0.5">
-                    敬请期待
-                  </span>
+                  <span className="lofn-home-module__badge">敬请期待</span>
                 </Card>
               </motion.div>
             )

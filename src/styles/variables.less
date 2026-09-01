@@ -1,0 +1,60 @@
+/* ===== 设计 Token（迁移自 tailwind.config.ts + index.css） ===== */
+
+// 颜色 RGB 分量（用于 /opacity 透明度变体）
+@info-rgb: 56, 189, 248;          // #38BDF8
+@success-rgb: 52, 211, 153;       // #34D399
+@warning-rgb: 251, 191, 36;       // #FBBF24
+@error-rgb: 248, 113, 113;        // #F87171
+@purple-500-rgb: 168, 85, 247;    // #a855f7
+@purple-400-rgb: 192, 132, 252;   // #c084fc
+@bg-base-rgb: 2, 4, 8;            // #020408
+@bg-surface-rgb: 5, 8, 16;        // #050810
+@bg-elevated-rgb: 10, 15, 26;     // #0a0f1a
+@border-accent-rgb: 125, 211, 252; // 边框蓝（alpha 0.1/0.18/0.3）
+
+// 透明度档位
+@opacity-levels: 5, 10, 20, 30, 40, 50, 60, 70, 80, 90;
+
+// 间距档位（tailwind scale = value × 0.25rem）
+@spacing-values: 0, 0.5, 1, 1.5, 2, 2.5, 3, 3.5, 4, 5, 6, 7, 8, 10, 11, 12, 14, 16, 20, 24;
+
+// 断点
+@screen-xs: 480px;
+@screen-sm: 640px;
+@screen-md: 768px;
+@screen-lg: 1024px;
+@screen-xl: 1280px;
+
+/* ===== CSS 变量（供运行时 / 组件内 var() 使用） ===== */
+:root {
+  /* 神话/北欧暗色主题：深黑底 + 冰蓝/银白辉光 */
+  --color-bg-base: #020408;
+  --color-bg-surface: #050810;
+  --color-bg-elevated: #0a0f1a;
+
+  --color-border-subtle: rgba(125, 211, 252, 0.1);
+  --color-border-default: rgba(125, 211, 252, 0.18);
+  --color-border-strong: rgba(125, 211, 252, 0.3);
+
+  --color-text-primary: #f0f9ff;
+  --color-text-secondary: #94a3b8;
+  --color-text-tertiary: #64748b;
+
+  --gradient-signature: linear-gradient(135deg, #22d3ee 0%, #38bdf8 50%, #818cf8 100%);
+}
+
+:root.light {
+  --color-bg-base: #f8fafc;
+  --color-bg-surface: #ffffff;
+  --color-bg-elevated: #f1f5f9;
+
+  --color-border-subtle: rgba(2, 132, 199, 0.08);
+  --color-border-default: rgba(2, 132, 199, 0.14);
+  --color-border-strong: rgba(2, 132, 199, 0.24);
+
+  --color-text-primary: #0f172a;
+  --color-text-secondary: #475569;
+  --color-text-tertiary: #94a3b8;
+
+  --gradient-signature: linear-gradient(135deg, #0891b2 0%, #0284c7 50%, #4f46e5 100%);
+}

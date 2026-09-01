@@ -1,0 +1,317 @@
+/* =========================================================
+   组件独立样式：每个语义化 class 的具体样式
+   替代 JSX 中 py-16 md:py-24 等工具类挂载
+   ========================================================= */
+
+/* ---------- 通用 UI：Section / Container ---------- */
+.lofn-section {
+  display: block;
+}
+
+.lofn-section--sm {
+  padding-top: 32px;
+  padding-bottom: 32px;
+
+  @media (min-width: @screen-md) {
+    padding-top: 64px;
+    padding-bottom: 64px;
+  }
+}
+
+.lofn-section--md {
+  padding-top: 48px;
+  padding-bottom: 48px;
+
+  @media (min-width: @screen-md) {
+    padding-top: 80px;
+    padding-bottom: 80px;
+  }
+}
+
+.lofn-section--lg {
+  padding-top: 64px;
+  padding-bottom: 64px;
+
+  @media (min-width: @screen-md) {
+    padding-top: 96px;
+    padding-bottom: 96px;
+  }
+}
+
+.lofn-container {
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 16px;
+  padding-right: 16px;
+
+  @media (min-width: @screen-md) {
+    padding-left: 64px;
+    padding-right: 64px;
+  }
+}
+
+.lofn-container--sm { max-width: 48rem; }
+.lofn-container--md { max-width: 64rem; }
+.lofn-container--lg { max-width: 80rem; }
+.lofn-container--full { max-width: none; }
+
+/* ---------- 通用 UI：Card ---------- */
+.lofn-card {
+  background-color: var(--color-bg-surface);
+  border: 1px solid var(--color-border-subtle);
+  border-radius: 18px;
+  padding: 16px;
+  transition: all 0.3s ease;
+
+  @media (min-width: @screen-xs) {
+    padding: 20px;
+  }
+
+  @media (min-width: @screen-sm) {
+    padding: 24px;
+  }
+}
+
+.lofn-card--hoverable {
+  &:hover {
+    border-color: var(--color-border-default);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+
+    @media (min-width: @screen-md) {
+      transform: translateY(-4px);
+    }
+  }
+}
+
+/* ---------- 通用 UI：Button ---------- */
+.lofn-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transition: all 0.3s ease;
+  user-select: none;
+  outline: none;
+
+  &:focus-visible {
+    box-shadow: 0 0 0 2px rgba(@info-rgb, 0.5);
+  }
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+
+  &:active:not(:disabled) {
+    transform: scale(0.98);
+  }
+}
+
+.lofn-button--primary {
+  background-image: linear-gradient(135deg, #22d3ee 0%, #38bdf8 50%, #818cf8 100%);
+  color: #ffffff;
+  font-weight: 500;
+  box-shadow: 0 0 40px rgba(34, 211, 238, 0.25);
+
+  &:hover:not(:disabled) {
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+  }
+}
+
+.lofn-button--secondary {
+  background-color: transparent;
+  border: 1px solid var(--color-border-default);
+  color: var(--color-text-primary);
+
+  &:hover:not(:disabled) {
+    background-color: var(--color-bg-elevated);
+    border-color: var(--color-border-strong);
+  }
+}
+
+.lofn-button--ghost {
+  background-color: transparent;
+  color: var(--color-text-secondary);
+
+  &:hover:not(:disabled) {
+    color: var(--color-text-primary);
+  }
+}
+
+.lofn-button--icon {
+  background-color: transparent;
+  color: var(--color-text-secondary);
+
+  &:hover:not(:disabled) {
+    color: var(--color-text-primary);
+    background-color: var(--color-bg-elevated);
+  }
+}
+
+.lofn-button--sm {
+  padding: 8px 14px;
+  font-size: 14px;
+  line-height: 20px;
+  border-radius: 18px;
+  min-height: 40px;
+}
+
+.lofn-button--md {
+  padding: 10px 20px;
+  font-size: 14px;
+  line-height: 20px;
+  border-radius: 18px;
+  min-height: 44px;
+
+  @media (min-width: @screen-sm) {
+    font-size: 16px;
+    line-height: 24px;
+  }
+}
+
+.lofn-button--lg {
+  padding: 12px 24px;
+  font-size: 16px;
+  line-height: 24px;
+  border-radius: 18px;
+  min-height: 48px;
+
+  @media (min-width: @screen-sm) {
+    padding: 14px 32px;
+  }
+}
+
+/* ---------- 布局：RootLayout ---------- */
+.lofn-root {
+  min-height: 100vh;
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  background-color: var(--color-bg-base);
+}
+
+.lofn-header {
+  position: sticky;
+  top: 0;
+  z-index: 40;
+  padding: 0 16px;
+  border-bottom: 1px solid var(--color-border-subtle);
+  background-color: rgba(@bg-base-rgb, 0.8);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  @media (min-width: @screen-md) {
+     padding: 0 64px;
+  }
+}
+
+.lofn-nav {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  height: 48px;
+
+  @media (min-width: @screen-sm) {
+    gap: 32px;
+  }
+
+  
+}
+
+.lofn-nav__brand {
+  flex-shrink: 0;
+  font-weight: 600;
+  line-height: 48px;
+  color: var(--color-text-primary);
+}
+
+.lofn-nav__items {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+
+  @media (min-width: @screen-sm) {
+    gap: 8px;
+  }
+}
+
+.lofn-nav__link {
+  display: inline-flex;
+  align-items: center;
+  padding: 6px 10px;
+  border-radius: 14px;
+  font-size: 14px;
+  line-height: 20px;
+  color: var(--color-text-secondary);
+  transition: color 0.15s ease, background-color 0.15s ease;
+
+  @media (min-width: @screen-sm) {
+    padding: 6px 12px;
+  }
+
+  &:hover {
+    color: var(--color-text-primary);
+  }
+
+  &[data-active='true'] {
+    color: var(--color-text-primary);
+    background-color: var(--color-bg-elevated);
+  }
+}
+
+.lofn-main {
+  flex: 1 1 0%;
+}
+
+/* ---------- 通用：返回链接 / Loading / Error ---------- */
+.lofn-runner-back {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 14px;
+  line-height: 20px;
+  color: var(--color-text-secondary);
+  margin-bottom: 16px;
+  transition: color 0.15s ease;
+
+  @media (min-width: @screen-md) {
+    margin-bottom: 24px;
+  }
+
+  &:hover {
+    color: var(--color-text-primary);
+  }
+}
+
+.lofn-loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 80px 0;
+  color: var(--color-text-secondary);
+}
+
+.lofn-loading__spinner {
+  animation: spin 1s linear infinite;
+  margin-bottom: 12px;
+}
+
+.lofn-error {
+  margin-bottom: 24px;
+  padding: 16px;
+  border-radius: 18px;
+  background-color: rgba(@error-rgb, 0.05);
+  border: 1px solid rgba(@error-rgb, 0.2);
+  text-align: center;
+
+  @media (min-width: @screen-md) {
+    margin-bottom: 32px;
+  }
+}
+
+.lofn-error__text {
+  color: #f87171;
+  margin-bottom: 16px;
+}

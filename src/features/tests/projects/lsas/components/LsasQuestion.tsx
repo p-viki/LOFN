@@ -1,4 +1,3 @@
-import { cn } from '@/utils/cn'
 import { Card } from '@/ui/Card'
 import { OptionList } from '../../../components/OptionList'
 import type { LsasQuestionProps, LsasAnswer } from '../types'
@@ -34,47 +33,30 @@ export function LsasQuestion({
   }
 
   return (
-    <Card hover={false} className="lofn-question-lsas space-y-4">
-      <div className="flex items-start gap-3">
-        <span
-          className={cn(
-            'shrink-0 mt-0.5 px-2 py-0.5 rounded-sm text-xs font-mono',
-            subscale === 'si'
-              ? 'bg-info/10 text-info'
-              : 'bg-purple-500/10 text-purple-500'
-          )}
-        >
+    <Card hover={false} className="lofn-question-lsas">
+      <div className="lofn-question-lsas__header">
+        <span className="lofn-question-lsas__badge" data-subscale={subscale}>
           {subscale === 'si' ? 'SI' : 'PS'}
         </span>
-        <h3 className="text-base sm:text-lg font-medium text-text-primary leading-relaxed flex-1">
-          {scenario}
-        </h3>
+        <h3 className="lofn-question-lsas__title">{scenario}</h3>
         {/* 作答状态指示 */}
-        <span
-          className={cn(
-            'shrink-0 text-[11px] px-1.5 py-0.5 rounded-md border mt-1',
-            answered
-              ? 'text-success border-success/30 bg-success/10'
-              : 'text-text-tertiary border-border-subtle bg-bg-elevated'
-          )}
-        >
+        <span className="lofn-question-lsas__status" data-answered={answered}>
           {answered ? '已完成' : '未完成'}
         </span>
       </div>
 
-      <div className="space-y-4">
+      <div className="lofn-question-lsas__subs">
         {/* 内心体感子题 */}
-        <div className="lofn-question-sub lofn-question-sub-fear rounded-lg border border-border-subtle bg-bg-elevated/20 p-3.5 sm:p-4">
-          <div className="flex items-center justify-between mb-2">
-            <p className="text-xs text-text-secondary flex items-center gap-1.5">
-              <span className="w-1.5 h-1.5 rounded-full bg-info" />
+        <div className="lofn-question-sub lofn-question-sub--fear">
+          <div className="lofn-question-sub__header">
+            <p className="lofn-question-sub__label" data-type="fear">
               内心体感
             </p>
             {answer.fear === null && (
-              <span className="text-[11px] text-warning">请选择</span>
+              <span className="lofn-question-sub__required">请选择</span>
             )}
           </div>
-          <p className="text-sm text-text-primary mb-3 leading-relaxed">{fearQuestion}</p>
+          <p className="lofn-question-sub__question">{fearQuestion}</p>
           <OptionList
             options={fearOptions.map((o) => ({ id: String(o.value), text: o.text }))}
             selectedId={answer.fear === null ? null : String(answer.fear)}
@@ -84,17 +66,16 @@ export function LsasQuestion({
         </div>
 
         {/* 行为应对子题 */}
-        <div className="lofn-question-sub lofn-question-sub-avoidance rounded-lg border border-border-subtle bg-bg-elevated/20 p-3.5 sm:p-4">
-          <div className="flex items-center justify-between mb-2">
-            <p className="text-xs text-text-secondary flex items-center gap-1.5">
-              <span className="w-1.5 h-1.5 rounded-full bg-purple-400" />
+        <div className="lofn-question-sub lofn-question-sub--avoidance">
+          <div className="lofn-question-sub__header">
+            <p className="lofn-question-sub__label" data-type="avoidance">
               行为应对
             </p>
             {answer.avoidance === null && (
-              <span className="text-[11px] text-warning">请选择</span>
+              <span className="lofn-question-sub__required">请选择</span>
             )}
           </div>
-          <p className="text-sm text-text-primary mb-3 leading-relaxed">{avoidanceQuestion}</p>
+          <p className="lofn-question-sub__question">{avoidanceQuestion}</p>
           <OptionList
             options={avoidanceOptions.map((o) => ({ id: String(o.value), text: o.text }))}
             selectedId={answer.avoidance === null ? null : String(answer.avoidance)}

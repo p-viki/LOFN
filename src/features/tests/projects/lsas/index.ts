@@ -9,7 +9,7 @@ export const lsasProject: TestProject = {
   description:
     'Liebowitz Social Anxiety Scale 自评量表，通过 24 个社交场景评估内心体感与行为应对两个维度，适合自我了解。',
   badge: '量表',
-  badgeClassName: 'bg-purple-500/10 text-purple-500 border-purple-500/20',
+  badgeTone: 'purple',
   loadInfo: async () => {
     const bank = await fetchLsasBank()
     return {

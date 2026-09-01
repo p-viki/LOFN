@@ -168,7 +168,7 @@ export interface CombinedProfile {
 export const COMBINED_PROFILES: Record<string, CombinedProfile> = {
   'high-high-high-high': {
     psType: 'high-high', siType: 'high-high',
-    name: '隐形逃亡者', animal: '🪳 蟑螂',
+    name: '隐形逃亡者', animal: '蛆',
     core: '高敏感、高恐惧、高回避',
     behavior: '害怕被评价，也害怕建立关系；容易脑补灾难，主动隐藏自己。',
     satire:
@@ -176,7 +176,7 @@ export const COMBINED_PROFILES: Record<string, CombinedProfile> = {
   },
   'high-high-high-low': {
     psType: 'high-high', siType: 'high-low',
-    name: '伪装生存者', animal: '🦎 变色龙',
+    name: '伪装生存者', animal: '下水道老鼠',
     core: '害怕表现，但社交能力尚可',
     behavior: '日常聊天没问题，但害怕展示能力、公开表达、被专业评价。',
     satire:

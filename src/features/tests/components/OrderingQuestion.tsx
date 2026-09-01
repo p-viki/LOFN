@@ -17,7 +17,6 @@ import {
 } from '@dnd-kit/sortable'
 import { CSS } from '@dnd-kit/utilities'
 import { ArrowUp, ArrowDown, Check, X, GripVertical } from 'lucide-react'
-import { cn } from '@/utils/cn'
 import { Card } from '@/ui/Card'
 import { Button } from '@/ui/Button'
 import type { OrderingQuestionProps } from './types'
@@ -65,47 +64,30 @@ function SortableItem({
     <div
       ref={setNodeRef}
       style={style}
-      className={cn(
-        'lofn-ordering-item',
-        'flex items-center gap-3 p-3 min-h-[52px] rounded-lg border transition-all duration-200',
-        'select-none touch-none',
-        showState && isCorrectPosition && 'border-success bg-success/10',
-        showState && isWrongPosition && 'border-error bg-error/10',
-        !showState && 'border-border-subtle bg-bg-elevated/30',
-        !showState && !isDragging && 'hover:bg-bg-elevated/60',
-        !showState && 'cursor-grab active:cursor-grabbing',
-        isDragging && 'opacity-90 shadow-xl ring-2 ring-info/40 bg-bg-surface'
-      )}
+      className="lofn-ordering-item"
+      data-show-state={showState || undefined}
+      data-correct={isCorrectPosition || undefined}
+      data-wrong={isWrongPosition || undefined}
+      data-dragging={isDragging || undefined}
     >
       <span
         {...attributes}
         {...listeners}
-        className={cn(
-          'shrink-0 text-text-tertiary p-1.5 -m-1.5 rounded',
-          'min-w-[36px] min-h-[36px] flex items-center justify-center',
-          !showState && 'cursor-grab active:cursor-grabbing touch-none'
-        )}
+        className="lofn-ordering-item__handle"
       >
         <GripVertical size={18} />
       </span>
 
-      <span className="w-7 h-7 shrink-0 flex items-center justify-center rounded-full bg-bg-elevated text-xs font-mono text-text-secondary">
-        {index + 1}
-      </span>
+      <span className="lofn-ordering-item__index">{index + 1}</span>
 
-      <span className={cn(
-        'flex-1 text-text-primary',
-        showState && isWrongPosition && 'text-error'
-      )}>
-        {item.text}
-      </span>
+      <span className="lofn-ordering-item__text">{item.text}</span>
 
       {!showState && (
-        <div className="flex items-center gap-1">
+        <div className="lofn-ordering-item__controls">
           <button
             onClick={() => onButtonMove(index, -1)}
             disabled={isFirst}
-            className="p-1.5 rounded text-text-tertiary hover:text-text-primary hover:bg-bg-elevated disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
+            className="lofn-ordering-item__control"
             aria-label="上移"
           >
             <ArrowUp size={16} />
@@ -113,7 +95,7 @@ function SortableItem({
           <button
             onClick={() => onButtonMove(index, 1)}
             disabled={isLast}
-            className="p-1.5 rounded text-text-tertiary hover:text-text-primary hover:bg-bg-elevated disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
+            className="lofn-ordering-item__control"
             aria-label="下移"
           >
             <ArrowDown size={16} />
@@ -122,11 +104,11 @@ function SortableItem({
       )}
 
       {showState && (
-        <span className="shrink-0 text-xs font-mono">
+        <span className="lofn-ordering-item__status">
           {isCorrectPosition ? (
-            <Check size={18} className="text-success" />
+            <Check size={18} className="lofn-ordering-item__status-icon lofn-ordering-item__status-icon--correct" />
           ) : (
-            <X size={18} className="text-error" />
+            <X size={18} className="lofn-ordering-item__status-icon lofn-ordering-item__status-icon--wrong" />
           )}
         </span>
       )}
@@ -209,14 +191,10 @@ export function OrderingQuestion({
   }
 
   return (
-    <Card hover={false} className="lofn-question-ordering space-y-4 md:space-y-6">
-      <div className="flex items-start gap-3">
-        <span className="shrink-0 mt-0.5 px-2 py-0.5 rounded-sm bg-purple-500/10 text-purple-500 text-xs font-mono">
-          排序
-        </span>
-        <h3 className="text-base sm:text-lg font-medium text-text-primary leading-relaxed">
-          {question}
-        </h3>
+    <Card hover={false} className="lofn-question-ordering">
+      <div className="lofn-question-ordering__header">
+        <span className="lofn-question-ordering__badge">排序</span>
+        <h3 className="lofn-question-ordering__title">{question}</h3>
       </div>
 
       <DndContext
@@ -229,7 +207,7 @@ export function OrderingQuestion({
           strategy={verticalListSortingStrategy}
           disabled={showState}
         >
-          <div className="space-y-2">
+          <div className="lofn-question-ordering__items">
             {order.map((id, index) => {
               const item = items.find((x) => x.id === id)!
               return (
@@ -252,26 +230,20 @@ export function OrderingQuestion({
       </DndContext>
 
       {!showState && (
-        <p className="text-xs text-text-tertiary flex items-center gap-1.5">
+        <p className="lofn-question-ordering__hint">
           <GripVertical size={14} /> 拖拽项目或点击上下按钮调整顺序
         </p>
       )}
 
-      <div className="flex items-center justify-between pt-2">
+      <div className="lofn-question-ordering__footer">
         {!isBatch && !submitted && !showCorrectAnswer && (
-          <Button
-            onClick={handleSubmit}
-            size="sm"
-          >
+          <Button onClick={handleSubmit} size="sm">
             提交答案
           </Button>
         )}
 
         {showState && (
-          <p className={cn(
-            'text-sm font-medium',
-            correct ? 'text-success' : 'text-error'
-          )}>
+          <p className="lofn-question-ordering__result" data-correct={correct}>
             {correct ? '排序正确' : '排序错误'}
           </p>
         )}

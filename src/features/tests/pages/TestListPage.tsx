@@ -30,42 +30,38 @@ function TestCard({ project }: { project: TestProject }) {
 
   return (
     <motion.div variants={variants.slideUp}>
-      <Link to={`/tests/${project.id}`} className="lofn-quiz-card block group">
-        <Card hover className="p-5 sm:p-7">
-          <div className="flex items-start justify-between gap-4">
-            <div className="flex-1">
-              <div className="flex items-center gap-2 mb-2">
+      <Link to={`/tests/${project.id}`} className="lofn-quiz-card">
+        <Card hover className="lofn-quiz-card__card">
+          <div className="lofn-quiz-card__body">
+            <div className="lofn-quiz-card__main">
+              <div className="lofn-quiz-card__header">
                 {project.badge && (
                   <span
                     className={cn(
-                      'text-xs font-medium px-2 py-0.5 rounded-md border',
-                      project.badgeClassName
+                      'lofn-quiz-card__badge',
+                      project.badgeTone && `lofn-quiz-card__badge--${project.badgeTone}`
                     )}
                   >
                     {project.badge}
                   </span>
                 )}
-                <h3 className="text-lg sm:text-xl font-semibold text-text-primary">
-                  {project.title}
-                </h3>
+                <h3 className="lofn-quiz-card__title">{project.title}</h3>
               </div>
-              <p className="text-sm text-text-secondary leading-relaxed mb-4">
-                {project.description}
-              </p>
-              <div className="flex flex-wrap items-center gap-x-4 gap-y-2 text-xs sm:text-sm text-text-tertiary">
-                <span className="flex items-center gap-1.5">
-                  <CheckCircle2 size={14} className="text-info" />
+              <p className="lofn-quiz-card__desc">{project.description}</p>
+              <div className="lofn-quiz-card__meta">
+                <span className="lofn-quiz-card__meta-item">
+                  <CheckCircle2 size={14} />
                   {info?.questionCount ?? '—'} 题
                 </span>
                 {(info?.tags ?? []).map((tag) => (
-                  <span key={tag} className="flex items-center gap-1.5">
-                    <BarChart3 size={14} className="text-info" />
+                  <span key={tag} className="lofn-quiz-card__meta-item">
+                    <BarChart3 size={14} />
                     {tag}
                   </span>
                 ))}
               </div>
             </div>
-            <span className="shrink-0 flex items-center gap-1 text-sm text-info transition-transform duration-300 group-hover:translate-x-1 mt-1">
+            <span className="lofn-quiz-card__action">
               开始 <ArrowRight size={16} />
             </span>
           </div>
@@ -81,13 +77,11 @@ export default function TestListPage() {
       <Seo title="测试题" description="多套心理量表与自测题库，探索更好的自己" />
       <Section spacing="lg" className="lofn-quiz-list">
         <Container size="md">
-          <div className="flex items-center gap-2.5 sm:gap-3 mb-3 sm:mb-4">
-            <ClipboardList className="h-6 w-6 sm:h-8 sm:w-8 text-text-primary shrink-0" />
-            <h1 className="text-display-md md:text-display-lg font-semibold text-text-primary">
-              测试题
-            </h1>
+          <div className="lofn-quiz-list__header">
+            <ClipboardList className="lofn-quiz-list__icon" />
+            <h1 className="lofn-quiz-list__title">测试题</h1>
           </div>
-          <p className="text-sm sm:text-base text-text-secondary mb-8 md:mb-12">
+          <p className="lofn-quiz-list__desc">
             选择一个测试项目进行自测，了解自己的心理状态。
           </p>
 
@@ -95,7 +89,7 @@ export default function TestListPage() {
             variants={variants.stagger}
             initial="hidden"
             animate="visible"
-            className="flex flex-col gap-3.5"
+            className="lofn-quiz-list__items"
           >
             {TEST_PROJECTS.map((project) => (
               <TestCard key={project.id} project={project} />

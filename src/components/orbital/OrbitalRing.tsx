@@ -48,10 +48,10 @@ export function OrbitalRing({
   return (
     <div
       aria-hidden
-      className={cn('orbit-layer perspective-1000', className)}
+      className={cn('orbit-layer', className)}
       style={layerStyle}
     >
-      <div className="orbit-ring preserve-3d">
+      <div className="orbit-ring">
         {words.map((word, index) => (
           <span
             key={word}

@@ -1,42 +1,5 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+/* ===== 基础重置（迁移自原 index.css，去掉 tailwind 指令） ===== */
 
-/* ===== 设计 Token ===== */
-:root {
-  /* 神话/北欧暗色主题：深黑底 + 冰蓝/银白辉光 */
-  --color-bg-base: #020408;
-  --color-bg-surface: #050810;
-  --color-bg-elevated: #0a0f1a;
-
-  --color-border-subtle: rgba(125, 211, 252, 0.1);
-  --color-border-default: rgba(125, 211, 252, 0.18);
-  --color-border-strong: rgba(125, 211, 252, 0.3);
-
-  --color-text-primary: #f0f9ff;
-  --color-text-secondary: #94a3b8;
-  --color-text-tertiary: #64748b;
-
-  --gradient-signature: linear-gradient(135deg, #22d3ee 0%, #38bdf8 50%, #818cf8 100%);
-}
-
-:root.light {
-  --color-bg-base: #f8fafc;
-  --color-bg-surface: #ffffff;
-  --color-bg-elevated: #f1f5f9;
-
-  --color-border-subtle: rgba(2, 132, 199, 0.08);
-  --color-border-default: rgba(2, 132, 199, 0.14);
-  --color-border-strong: rgba(2, 132, 199, 0.24);
-
-  --color-text-primary: #0f172a;
-  --color-text-secondary: #475569;
-  --color-text-tertiary: #94a3b8;
-
-  --gradient-signature: linear-gradient(135deg, #0891b2 0%, #0284c7 50%, #4f46e5 100%);
-}
-
-/* ===== 基础重置 ===== */
 *,
 *::before,
 *::after {
@@ -49,7 +12,6 @@ html {
   scroll-behavior: smooth;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  /* 移动端：适配 viewport 单位（dvh 用于 iOS 地址栏收缩） */
   min-height: 100%;
   -webkit-text-size-adjust: 100%;
   text-size-adjust: 100%;
@@ -83,7 +45,6 @@ button {
   cursor: pointer;
   border: none;
   background: none;
-  /* 移动端：不产生双击缩放 */
   touch-action: manipulation;
 }
 
@@ -100,20 +61,19 @@ img {
   display: block;
 }
 
-/* ===== 移动端触摸优化：可点击元素最小触达区域 ===== */
+/* 移动端触摸优化：可点击元素最小触达区域 */
 button,
 [role='button'],
 a {
   min-height: 44px;
 }
 
-/* 允许图标/内联元素等保持紧凑，避免过度约束 */
 button[aria-label],
 [role='button'][aria-label] {
   min-width: 44px;
 }
 
-/* ===== 滚动条（桌面端显示，移动端隐藏） ===== */
+/* 滚动条（桌面端显示，移动端隐藏） */
 ::-webkit-scrollbar {
   width: 6px;
   height: 6px;
@@ -132,61 +92,31 @@ button[aria-label],
   background: var(--color-border-strong);
 }
 
-/* 移动端隐藏滚动条以保持清爽 */
 @media (pointer: coarse) {
   ::-webkit-scrollbar {
     display: none;
   }
 }
 
-/* ===== 选中文本 ===== */
+/* 选中文本 */
 ::selection {
   background: rgba(34, 211, 238, 0.25);
   color: var(--color-text-primary);
 }
 
-/* ===== 渐变工具类 ===== */
-@layer utilities {
-  .bg-gradient {
-    background: var(--gradient-signature);
-  }
-
-  .text-gradient {
-    background: var(--gradient-signature);
-    -webkit-background-clip: text;
-    background-clip: text;
-    -webkit-text-fill-color: transparent;
-    color: transparent;
-  }
-
-  /* ===== 3D 透视工具类 ===== */
-  .perspective-1000 {
-    perspective: 1000px;
-  }
-
-  .preserve-3d {
-    transform-style: preserve-3d;
-  }
-
-  /* ===== 渐变发光边框（测试辅助用） ===== */
-  .glow-border {
-    border: 1px solid transparent;
-    background:
-      linear-gradient(var(--color-bg-surface), var(--color-bg-surface)) padding-box,
-      var(--gradient-signature) border-box;
-    box-shadow:
-      0 0 12px rgba(34, 211, 238, 0.25),
-      0 0 32px rgba(56, 189, 248, 0.15);
-    animation: glow-pulse 2.4s ease-in-out infinite;
-  }
-
-  .glow-border:hover {
-    box-shadow:
-      0 0 16px rgba(34, 211, 238, 0.4),
-      0 0 44px rgba(56, 189, 248, 0.25);
+/* 减少动画偏好 */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
   }
 }
 
+/* ===== 关键帧 ===== */
 @keyframes glow-pulse {
   0%,
   100% {
@@ -198,6 +128,21 @@ button[aria-label],
     box-shadow:
       0 0 14px rgba(34, 211, 238, 0.35),
       0 0 40px rgba(56, 189, 248, 0.22);
+  }
+}
+
+@keyframes orbit-spin {
+  from {
+    transform: rotateX(var(--orbit-tilt)) rotateY(0deg);
+  }
+  to {
+    transform: rotateX(var(--orbit-tilt)) rotateY(360deg);
+  }
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
   }
 }
 
@@ -220,6 +165,7 @@ button[aria-label],
   position: relative;
   width: calc(var(--orbit-radius) * 2);
   height: calc(var(--orbit-radius) * 2);
+  transform-style: preserve-3d;
   transform: rotateX(var(--orbit-tilt));
   animation: orbit-spin var(--orbit-duration) linear infinite;
   animation-direction: var(--orbit-direction);
@@ -244,25 +190,4 @@ button[aria-label],
     translateZ(var(--orbit-radius));
   backface-visibility: hidden;
   -webkit-backface-visibility: hidden;
-}
-
-@keyframes orbit-spin {
-  from {
-    transform: rotateX(var(--orbit-tilt)) rotateY(0deg);
-  }
-  to {
-    transform: rotateX(var(--orbit-tilt)) rotateY(360deg);
-  }
-}
-
-/* ===== 减少动画偏好 ===== */
-@media (prefers-reduced-motion: reduce) {
-  *,
-  *::before,
-  *::after {
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
-    scroll-behavior: auto !important;
-  }
 }

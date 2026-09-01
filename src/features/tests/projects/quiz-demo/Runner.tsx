@@ -224,54 +224,49 @@ export function QuizDemoRunner() {
       <Seo title="题库测试" description="测试题组件用例展示" />
       <Section spacing="lg" className="lofn-quiz-demo">
         <Container size="md">
-          <Link
-            to="/tests"
-            className="inline-flex items-center gap-1.5 text-sm text-text-secondary hover:text-text-primary transition-colors mb-4 md:mb-6"
-          >
+          <Link to="/tests" className="lofn-runner-back">
             <ArrowLeft size={18} /> 返回测试题
           </Link>
 
-          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 sm:gap-4 mb-5 md:mb-8">
-            <div>
-              <h1 className="text-xl sm:text-2xl font-semibold text-text-primary mb-1">
+          <div className="lofn-quiz-demo__header">
+            <div className="lofn-quiz-demo__title-wrap">
+              <h1 className="lofn-quiz-demo__title">
                 {bankMeta?.title ?? '题库测试'}
               </h1>
-              <p className="text-sm text-text-secondary">
+              <p className="lofn-quiz-demo__desc">
                 {bankMeta?.description ?? '单选 / 多选 / 排序 题型组件用例'}，共 {questions.length} 题
               </p>
             </div>
 
-            <div className="flex items-center gap-2 w-full sm:w-auto">
-              <Button
-                variant="secondary"
-                size="sm"
-                onClick={() => setShowAllAnswers((v) => !v)}
-                className="flex-1 sm:flex-none"
-              >
-                {showAllAnswers ? '隐藏答案' : '显示全部答案'}
-              </Button>
-              <Button
-                variant="ghost"
-                size="sm"
-                onClick={handleReset}
-                className="gap-1.5 flex-1 sm:flex-none"
-              >
-                <RotateCcw size={14} /> 重置
-              </Button>
+            <div className="lofn-quiz-demo__toolbar">
+              <span className="lofn-quiz-demo__toolbar-btn">
+                <Button
+                  variant="secondary"
+                  size="sm"
+                  onClick={() => setShowAllAnswers((v) => !v)}
+                >
+                  {showAllAnswers ? '隐藏答案' : '显示全部答案'}
+                </Button>
+              </span>
+              <span className="lofn-quiz-demo__toolbar-btn">
+                <Button variant="ghost" size="sm" onClick={handleReset}>
+                  <RotateCcw size={14} /> 重置
+                </Button>
+              </span>
             </div>
           </div>
 
           {/* Loading / Error */}
           {loading && (
-            <div className="flex flex-col items-center justify-center py-20 text-text-secondary">
-              <Loader2 size={32} className="animate-spin mb-3" />
+            <div className="lofn-loading">
+              <Loader2 size={32} className="lofn-loading__spinner" />
               <p>加载题库中...</p>
             </div>
           )}
 
           {error && (
-            <div className="mb-6 md:mb-8 p-4 md:p-6 rounded-lg bg-error/5 border border-error/20 text-center">
-              <p className="text-error mb-4">{error}</p>
+            <div className="lofn-error">
+              <p className="lofn-error__text">{error}</p>
               <Button onClick={handleRetry} size="sm">重新加载</Button>
             </div>
           )}
@@ -280,34 +275,34 @@ export function QuizDemoRunner() {
             <>
               {/* 最终得分 */}
               {scoreResult && (
-                <div className="mb-6 md:mb-8">
+                <div className="lofn-quiz-demo__result">
                   <ScoreResult result={scoreResult} onReset={handleReset} />
                 </div>
               )}
 
               {/* Progress summary */}
               {!scoreResult && (
-                <div className="lofn-quiz-demo-progress mb-5 md:mb-8 p-3.5 sm:p-4 rounded-lg bg-bg-elevated border border-border-subtle">
-                  <div className="flex items-center justify-between mb-2">
-                    <span className="text-sm text-text-secondary">答题进度</span>
-                    <span className="text-sm font-mono text-text-primary">
+                <div className="lofn-quiz-demo-progress">
+                  <div className="lofn-quiz-demo-progress__meta">
+                    <span className="lofn-quiz-demo-progress__label">答题进度</span>
+                    <span className="lofn-quiz-demo-progress__count">
                       {submittedCount} / {questions.length}
                     </span>
                   </div>
-                  <div className="h-2 rounded-full bg-bg-surface overflow-hidden mb-3">
+                  <div className="lofn-quiz-demo-progress__track">
                     <div
-                      className="h-full bg-gradient rounded-full transition-all duration-500"
+                      className="lofn-quiz-demo-progress__fill"
                       style={{ width: `${questions.length ? (submittedCount / questions.length) * 100 : 0}%` }}
                     />
                   </div>
-                  <div className="flex flex-wrap items-center gap-x-4 gap-y-1 text-sm">
-                    <span className="flex items-center gap-1.5 text-success">
+                  <div className="lofn-quiz-demo-progress__stats">
+                    <span className="lofn-quiz-demo-progress__stat lofn-quiz-demo-progress__stat--correct">
                       <CheckCircle size={16} /> {correctCount} 正确
                     </span>
-                    <span className="flex items-center gap-1.5 text-error">
+                    <span className="lofn-quiz-demo-progress__stat lofn-quiz-demo-progress__stat--wrong">
                       <XCircle size={16} /> {submittedCount - correctCount} 错误
                     </span>
-                    <span className="ml-auto text-sm font-medium text-text-tertiary">
+                    <span className="lofn-quiz-demo-progress__mode">
                       计分方式：
                       {bankMeta?.scoring.mode === 'weighted' ? '按选项分值' : '全对全错'}
                     </span>
@@ -317,17 +312,17 @@ export function QuizDemoRunner() {
 
               {/* Batch submit */}
               {batchQuestions.length > 0 && !batchSubmitted && !showAllAnswers && (
-                <div className="lofn-quiz-demo-batch mb-5 md:mb-8 p-3.5 sm:p-4 rounded-lg border border-border-subtle bg-bg-elevated/50">
-                  <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
-                    <div>
-                      <p className="text-sm text-text-primary font-medium mb-1">批量提交题目</p>
-                      <p className="text-xs text-text-secondary">
+                <div className="lofn-quiz-demo-batch">
+                  <div className="lofn-quiz-demo-batch__body">
+                    <div className="lofn-quiz-demo-batch__info">
+                      <p className="lofn-quiz-demo-batch__title">批量提交题目</p>
+                      <p className="lofn-quiz-demo-batch__count">
                         已作答 {batchQuestions.filter((i) => isBatchAnswered(batchAnswers[i], questions[i].type)).length} / {batchQuestions.length} 题
                       </p>
                     </div>
-                    <div className="flex flex-col items-stretch sm:items-end gap-2">
+                    <div className="lofn-quiz-demo-batch__action">
                       {batchError && (
-                        <span className="flex items-center gap-1.5 text-xs text-error">
+                        <span className="lofn-quiz-demo-batch__error">
                           <AlertCircle size={14} /> {batchError}
                         </span>
                       )}
@@ -340,7 +335,7 @@ export function QuizDemoRunner() {
               )}
 
               {/* Questions */}
-              <div className="lofn-quiz-demo-questions space-y-4 md:space-y-6">
+              <div className="lofn-quiz-demo-questions">
                 {questions.map((q, index) => renderQuestion(q, index))}
               </div>
             </>

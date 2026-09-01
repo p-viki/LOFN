@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react'
 import { Check, X } from 'lucide-react'
-import { cn } from '@/utils/cn'
 import { Card } from '@/ui/Card'
 import { Button } from '@/ui/Button'
 import type { MultipleChoiceQuestionProps } from './types'
@@ -50,17 +49,13 @@ export function MultipleChoiceQuestion({
     selectedIds.every((id) => correctOptionIds.includes(id))
 
   return (
-    <Card hover={false} className="lofn-question-multiple space-y-4 md:space-y-6">
-      <div className="flex items-start gap-3">
-        <span className="shrink-0 mt-0.5 px-2 py-0.5 rounded-sm bg-warning/10 text-warning text-xs font-mono">
-          多选
-        </span>
-        <h3 className="text-base sm:text-lg font-medium text-text-primary leading-relaxed">
-          {question}
-        </h3>
+    <Card hover={false} className="lofn-question-multiple">
+      <div className="lofn-question-multiple__header">
+        <span className="lofn-question-multiple__badge">多选</span>
+        <h3 className="lofn-question-multiple__title">{question}</h3>
       </div>
 
-      <div className="space-y-2.5 md:space-y-3">
+      <div className="lofn-question-multiple__options">
         {options.map((option) => {
           const isSelected = selectedIds.includes(option.id)
           const isCorrectOption = correctOptionIds.includes(option.id)
@@ -70,42 +65,30 @@ export function MultipleChoiceQuestion({
               key={option.id}
               disabled={submitted || showCorrectAnswer}
               onClick={() => toggleOption(option.id)}
-              className={cn(
-                'lofn-option-item',
-                'w-full flex items-center gap-3 md:gap-4 p-3.5 md:p-4 min-h-[52px] rounded-lg border text-left transition-all duration-300',
-                'hover:bg-bg-elevated focus:outline-none focus-visible:ring-2 focus-visible:ring-info/50',
-                'active:scale-[0.99]',
-                showState && isCorrectOption && 'border-success bg-success/10',
-                showState && isSelected && !isCorrectOption && 'border-error bg-error/10',
-                !showState && isSelected && 'border-info bg-info/5 ring-1 ring-info/30',
-                !showState && !isSelected && 'border-border-subtle bg-bg-elevated/30'
-              )}
+              className="lofn-option-item"
+              data-selected={isSelected || undefined}
+              data-correct={isCorrectOption || undefined}
+              data-wrong={(showState && isSelected && !isCorrectOption) || undefined}
+              data-show-state={showState || undefined}
             >
-              <span
-                className={cn(
-                  'shrink-0 w-5 h-5 rounded border-2 flex items-center justify-center transition-colors',
-                  isSelected ? 'border-info bg-info' : 'border-border-default',
-                  showState && isCorrectOption && 'border-success bg-success',
-                  showState && isSelected && !isCorrectOption && 'border-error bg-error'
-                )}
-              >
-                {isSelected && <Check size={12} className="text-white" />}
+              <span className="lofn-option-item__checkbox">
+                {isSelected && <Check size={12} />}
               </span>
 
-              <span className="flex-1 text-text-primary">{option.text}</span>
+              <span className="lofn-option-item__text">{option.text}</span>
 
               {showState && isCorrectOption && !isSelected && (
-                <span className="text-xs text-success font-medium">正确答案</span>
+                <span className="lofn-option-item__meta">正确答案</span>
               )}
               {showState && isSelected && !isCorrectOption && (
-                <X size={18} className="shrink-0 text-error" />
+                <X size={18} className="lofn-option-item__meta lofn-option-item__meta--wrong" />
               )}
             </button>
           )
         })}
       </div>
 
-      <div className="flex items-center justify-between pt-2">
+      <div className="lofn-question-multiple__footer">
         {!isBatch && !submitted && !showCorrectAnswer && (
           <Button
             onClick={handleSubmit}
@@ -117,10 +100,7 @@ export function MultipleChoiceQuestion({
         )}
 
         {showState && (
-          <p className={cn(
-            'text-sm font-medium',
-            isCorrect ? 'text-success' : 'text-error'
-          )}>
+          <p className="lofn-question-multiple__result" data-correct={isCorrect}>
             {isCorrect ? '回答正确' : '回答错误'}
           </p>
         )}

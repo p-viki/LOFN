@@ -1,0 +1,399 @@
+/* =========================================================
+   页面独立样式
+   ========================================================= */
+
+/* ---------- 页面：HomePage ---------- */
+.lofn-home {
+  position: relative;
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  padding: 64px 16px;
+}
+
+.lofn-home-glow {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.lofn-home-glow__blob {
+  position: absolute;
+  left: 50%;
+  top: 30%;
+  transform: translate(-50%, -50%);
+  width: 80vw;
+  height: 80vw;
+  max-width: 640px;
+  max-height: 640px;
+  border-radius: 50%;
+  background-color: rgba(@info-rgb, 0.1);
+  filter: blur(64px);
+}
+
+.lofn-home-hero {
+  position: relative;
+  z-index: 10;
+  text-align: center;
+  margin-top: 32px;
+
+  @media (min-width: @screen-sm) {
+    margin-top: 40px;
+  }
+}
+
+.lofn-home-title {
+  font-size: 36px;
+  line-height: 40px;
+  font-weight: 600;
+  letter-spacing: -0.025em;
+  background: var(--gradient-signature);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+
+  @media (min-width: @screen-sm) {
+    font-size: 48px;
+  }
+
+  @media (min-width: @screen-md) {
+    font-size: 60px;
+    line-height: 1;
+  }
+
+  @media (min-width: @screen-lg) {
+    font-size: 72px;
+  }
+}
+
+.lofn-home-subtitle {
+  margin-top: 12px;
+  font-size: 16px;
+  line-height: 24px;
+  color: var(--color-text-secondary);
+  letter-spacing: 0.025em;
+
+  @media (min-width: @screen-sm) {
+    margin-top: 16px;
+    font-size: 18px;
+    line-height: 28px;
+  }
+
+  @media (min-width: @screen-md) {
+    font-size: 20px;
+    line-height: 28px;
+  }
+}
+
+.lofn-home-modules {
+  position: relative;
+  z-index: 10;
+  width: 100%;
+  max-width: 42rem;
+  margin-top: 48px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+
+  @media (min-width: @screen-sm) {
+    margin-top: 64px;
+  }
+}
+
+.lofn-home-module {
+  display: block;
+}
+
+.lofn-home-module__card {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 16px;
+
+  @media (min-width: @screen-sm) {
+    padding: 20px;
+  }
+}
+
+.lofn-home-module__card--disabled {
+  opacity: 0.6;
+}
+
+.lofn-home-module__icon {
+  flex-shrink: 0;
+  width: 44px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 14px;
+  background-color: rgba(@info-rgb, 0.1);
+  color: #38bdf8;
+}
+
+.lofn-home-module__icon--disabled {
+  background-color: var(--color-bg-elevated);
+  color: var(--color-text-tertiary);
+}
+
+.lofn-home-module__content {
+  flex: 1 1 0%;
+  text-align: left;
+}
+
+.lofn-home-module__title {
+  font-size: 16px;
+  line-height: 24px;
+  font-weight: 600;
+  color: var(--color-text-primary);
+
+  @media (min-width: @screen-sm) {
+    font-size: 18px;
+    line-height: 28px;
+  }
+}
+
+.lofn-home-module__desc {
+  font-size: 14px;
+  line-height: 20px;
+  color: var(--color-text-secondary);
+}
+
+.lofn-home-module__arrow {
+  flex-shrink: 0;
+  color: #38bdf8;
+  transition: transform 0.3s ease;
+}
+
+.lofn-home-module:hover .lofn-home-module__arrow {
+  transform: translateX(4px);
+}
+
+.lofn-home-module__badge {
+  flex-shrink: 0;
+  font-size: 12px;
+  line-height: 16px;
+  color: var(--color-text-tertiary);
+  border: 1px solid var(--color-border-subtle);
+  border-radius: 14px;
+  padding: 2px 8px;
+}
+
+/* ---------- 页面：TestListPage ---------- */
+.lofn-quiz-list {
+  .lofn-quiz-list__header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 12px;
+
+    @media (min-width: @screen-sm) {
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+  }
+
+  .lofn-quiz-list__icon {
+    width: 24px;
+    height: 24px;
+    flex-shrink: 0;
+    color: var(--color-text-primary);
+
+    @media (min-width: @screen-sm) {
+      width: 32px;
+      height: 32px;
+    }
+  }
+
+  .lofn-quiz-list__title {
+    font-size: 28px;
+    line-height: 1.25;
+    letter-spacing: -0.01em;
+    font-weight: 600;
+    color: var(--color-text-primary);
+
+    @media (min-width: @screen-md) {
+      font-size: 40px;
+      line-height: 1.15;
+      letter-spacing: -0.02em;
+    }
+  }
+
+  .lofn-quiz-list__desc {
+    font-size: 14px;
+    line-height: 20px;
+    color: var(--color-text-secondary);
+    margin-bottom: 32px;
+
+    @media (min-width: @screen-md) {
+      font-size: 16px;
+      line-height: 24px;
+      margin-bottom: 48px;
+    }
+  }
+
+  .lofn-quiz-list__items {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+}
+
+.lofn-quiz-card {
+  display: block;
+}
+
+.lofn-quiz-card__card {
+  padding: 20px;
+
+  @media (min-width: @screen-sm) {
+    padding: 28px;
+  }
+}
+
+.lofn-quiz-card__body {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.lofn-quiz-card__main {
+  flex: 1 1 0%;
+}
+
+.lofn-quiz-card__header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.lofn-quiz-card__badge {
+  font-size: 12px;
+  line-height: 16px;
+  font-weight: 500;
+  padding: 2px 8px;
+  border-radius: 14px;
+  border: 1px solid transparent;
+
+  &--purple {
+    color: #a855f7;
+    background-color: rgba(@purple-500-rgb, 0.1);
+    border-color: rgba(@purple-500-rgb, 0.2);
+  }
+
+  &--info {
+    color: #38bdf8;
+    background-color: rgba(@info-rgb, 0.1);
+    border-color: rgba(@info-rgb, 0.2);
+  }
+
+  &--success {
+    color: #34d399;
+    background-color: rgba(@success-rgb, 0.1);
+    border-color: rgba(@success-rgb, 0.2);
+  }
+
+  &--warning {
+    color: #fbbf24;
+    background-color: rgba(@warning-rgb, 0.1);
+    border-color: rgba(@warning-rgb, 0.2);
+  }
+}
+
+.lofn-quiz-card__title {
+  font-size: 18px;
+  line-height: 28px;
+  font-weight: 600;
+  color: var(--color-text-primary);
+
+  @media (min-width: @screen-sm) {
+    font-size: 20px;
+    line-height: 28px;
+  }
+}
+
+.lofn-quiz-card__desc {
+  font-size: 14px;
+  line-height: 1.625;
+  color: var(--color-text-secondary);
+  margin-bottom: 16px;
+}
+
+.lofn-quiz-card__meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  column-gap: 16px;
+  row-gap: 8px;
+  font-size: 12px;
+  line-height: 16px;
+  color: var(--color-text-tertiary);
+
+  @media (min-width: @screen-sm) {
+    font-size: 14px;
+    line-height: 20px;
+  }
+}
+
+.lofn-quiz-card__meta-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: #38bdf8;
+}
+
+.lofn-quiz-card__action {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 14px;
+  line-height: 20px;
+  color: #38bdf8;
+  margin-top: 4px;
+  transition: transform 0.3s ease;
+}
+
+.lofn-quiz-card:hover .lofn-quiz-card__action {
+  transform: translateX(4px);
+}
+
+/* ---------- 页面：Games / Articles 空状态 ---------- */
+.lofn-games,
+.lofn-articles {
+  .lofn-empty-state {
+    text-align: center;
+    padding: 64px 24px;
+
+    @media (min-width: @screen-sm) {
+      padding: 96px 24px;
+    }
+  }
+
+  .lofn-empty-state__icon {
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 16px;
+    color: #38bdf8;
+  }
+
+  .lofn-empty-state__title {
+    font-size: 24px;
+    line-height: 32px;
+    font-weight: 600;
+    color: var(--color-text-primary);
+    margin-bottom: 8px;
+  }
+
+  .lofn-empty-state__desc {
+    font-size: 14px;
+    line-height: 20px;
+    color: var(--color-text-secondary);
+  }
+}

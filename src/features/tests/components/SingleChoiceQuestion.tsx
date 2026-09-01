@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react'
-import { cn } from '@/utils/cn'
 import { Card } from '@/ui/Card'
 import { Button } from '@/ui/Button'
 import { OptionList } from './OptionList'
@@ -48,14 +47,10 @@ export function SingleChoiceQuestion({
   const showState = !isPureChoice && (submitted || showCorrectAnswer)
 
   return (
-    <Card hover={false} className="lofn-question-single space-y-4 md:space-y-6">
-      <div className="flex items-start gap-3">
-        <span className="shrink-0 mt-0.5 px-2 py-0.5 rounded-sm bg-info/10 text-info text-xs font-mono">
-          {badge}
-        </span>
-        <h3 className="text-base sm:text-lg font-medium text-text-primary leading-relaxed">
-          {question}
-        </h3>
+    <Card hover={false} className="lofn-question-single">
+      <div className="lofn-question-single__header">
+        <span className="lofn-question-single__badge">{badge}</span>
+        <h3 className="lofn-question-single__title">{question}</h3>
       </div>
 
       <OptionList
@@ -67,7 +62,7 @@ export function SingleChoiceQuestion({
         correctId={correctOptionId}
       />
 
-      <div className="flex items-center justify-between pt-2">
+      <div className="lofn-question-single__footer">
         {!isPureChoice && !isBatch && !submitted && !showCorrectAnswer && (
           <Button onClick={handleSubmit} disabled={!selectedId} size="sm">
             提交答案
@@ -76,10 +71,8 @@ export function SingleChoiceQuestion({
 
         {showState && (
           <p
-            className={cn(
-              'text-sm font-medium',
-              selectedId === correctOptionId ? 'text-success' : 'text-error'
-            )}
+            className="lofn-question-single__result"
+            data-correct={selectedId === correctOptionId}
           >
             {selectedId === correctOptionId ? '回答正确' : '回答错误'}
           </p>

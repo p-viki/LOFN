@@ -9,7 +9,7 @@ export const quizDemoProject: TestProject = {
   description:
     'HTML / CSS / JavaScript / TypeScript / React / Vue 综合测试，覆盖单选、多选、排序三种题型，用于自测练习。',
   badge: 'Demo',
-  badgeClassName: 'bg-info/10 text-info border-info/20',
+  badgeTone: 'info',
   loadInfo: async () => {
     const bank = await fetchQuizBank()
     const mode = bank.meta.scoring.mode

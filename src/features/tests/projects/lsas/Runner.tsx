@@ -137,22 +137,19 @@ export function LsasRunner() {
   return (
     <>
       <Seo title="LSAS 社交焦虑量表" description="Liebowitz 社交焦虑量表自评" />
-      <Section spacing="lg" className="lofn-lsas">
+      <Section spacing="sm" className="lofn-lsas">
         <Container size="md">
-          <Link
-            to="/tests"
-            className="inline-flex items-center gap-1.5 text-sm text-text-secondary hover:text-text-primary transition-colors mb-4 md:mb-6"
-          >
+          <Link to="/tests" className="lofn-runner-back">
             <ArrowLeft size={18} /> 返回测试题
           </Link>
 
-          <div className="flex items-center gap-2.5 mb-2">
-            <ClipboardList className="h-5 w-5 sm:h-6 sm:w-6 text-info shrink-0" />
-            <h1 className="text-xl sm:text-2xl font-semibold text-text-primary">
+          <div className="lofn-lsas__header">
+            <ClipboardList className="lofn-lsas__icon" />
+            <h1 className="lofn-lsas__title">
               {bank?.meta.title ?? 'LSAS 社交焦虑量表'}
             </h1>
           </div>
-          <p className="text-sm text-text-secondary mb-5 md:mb-8 max-w-2xl leading-relaxed">
+          <p className="lofn-lsas__desc">
             {bank?.meta.description ??
               '评估社交恐惧与回避程度的自评量表，共 24 个场景，每个场景评估「恐惧/焦虑」与「回避」两个维度。'}
           </p>
@@ -163,23 +160,23 @@ export function LsasRunner() {
               variant="secondary"
               size="md"
               onClick={handleQuickAnswer}
-              className="fixed bottom-6 right-6 z-50 gap-1.5 shadow-lg glow-border bg-bg-surface/90 backdrop-blur"
+              className="lofn-dev-tools__quick"
             >
-              <Wand2 size={16} className="text-warning" /> 一键答题（随机）
+              <Wand2 size={16} className="lofn-dev-tools__quick-icon" /> 一键答题（随机）
             </Button>
           )}
 
           {/* Loading / Error */}
           {loading && (
-            <div className="flex flex-col items-center justify-center py-20 text-text-secondary">
-              <Loader2 size={32} className="animate-spin mb-3" />
+            <div className="lofn-loading">
+              <Loader2 size={32} className="lofn-loading__spinner" />
               <p>加载量表中...</p>
             </div>
           )}
 
           {error && (
-            <div className="mb-6 p-4 rounded-lg bg-error/5 border border-error/20 text-center">
-              <p className="text-error mb-4">{error}</p>
+            <div className="lofn-error">
+              <p className="lofn-error__text">{error}</p>
               <Button onClick={() => window.location.reload()} size="sm">
                 重新加载
               </Button>
@@ -190,21 +187,16 @@ export function LsasRunner() {
             <>
               {/* 报告 */}
               {scoreResult && (
-                <div className="mb-6 md:mb-8">
+                <div className="lofn-lsas__report">
                   <LsasReport result={scoreResult} onReset={handleReset} />
 
                   {/* 开发测试辅助：复制报告数据结构 */}
                   {isDev && (
-                    <div className="mt-3 flex justify-end">
-                      <Button
-                        variant="ghost"
-                        size="sm"
-                        onClick={handleCopyReport}
-                        className="gap-1.5"
-                      >
+                    <div className="lofn-dev-tools__copy">
+                      <Button variant="ghost" size="sm" onClick={handleCopyReport}>
                         {copied ? (
                           <>
-                            <Check size={14} className="text-success" /> 已复制
+                            <Check size={14} className="lofn-dev-tools__copy-icon--copied" /> 已复制
                           </>
                         ) : (
                           <>
@@ -220,20 +212,20 @@ export function LsasRunner() {
               {!scoreResult && (
                 <>
                   {/* 进度 */}
-                  <div className="lofn-lsas-progress mb-5 md:mb-8 p-3.5 sm:p-4 rounded-lg bg-bg-elevated border border-border-subtle">
-                    <div className="flex items-center justify-between mb-2">
-                      <span className="text-sm text-text-secondary">第 {currentIndex + 1} / {total} 个场景</span>
-                      <span className="text-sm font-mono text-text-primary">
+                  <div className="lofn-lsas-progress">
+                    <div className="lofn-lsas-progress__meta">
+                      <span className="lofn-lsas-progress__step">第 {currentIndex + 1} / {total} 个场景</span>
+                      <span className="lofn-lsas-progress__count">
                         已答 {answeredCount} / {total}
                       </span>
                     </div>
-                    <div className="h-2 rounded-full bg-bg-surface overflow-hidden mb-3">
+                    <div className="lofn-lsas-progress__track">
                       <div
-                        className="h-full bg-gradient rounded-full transition-all duration-500"
+                        className="lofn-lsas-progress__fill"
                         style={{ width: `${total ? ((currentIndex + 1) / total) * 100 : 0}%` }}
                       />
                     </div>
-                    <p className="text-xs text-text-tertiary">
+                    <p className="lofn-lsas-progress__hint">
                       选择选项后自动进入下一题，也可通过下方按钮自由切换；每个场景请分别评估「恐惧/焦虑」和「回避」两个维度。
                     </p>
                   </div>
@@ -262,47 +254,48 @@ export function LsasRunner() {
                   </AnimatePresence>
 
                   {/* 导航：上一题 / 下一题（需完成当前题） / 最后一题提交 */}
-                  <div className="lofn-lsas-nav mt-8 flex flex-col items-center gap-4">
+                  <div className="lofn-lsas-nav">
                     {submitError && (
-                      <span className="flex items-center gap-1.5 text-sm text-error">
+                      <span className="lofn-lsas-nav__error">
                         <AlertCircle size={14} /> {submitError}
                       </span>
                     )}
-                    <div className="flex flex-wrap items-center justify-center gap-3 w-full sm:w-auto">
-                      <Button
-                        variant="secondary"
-                        size="lg"
-                        onClick={handlePrev}
-                        disabled={currentIndex === 0}
-                        className="w-full sm:w-auto"
-                      >
-                        <ArrowLeft size={18} /> 上一题
-                      </Button>
+                    <div className="lofn-lsas-nav__btns">
+                      <span className="lofn-lsas-nav__btn">
+                        <Button
+                          variant="secondary"
+                          size="lg"
+                          onClick={handlePrev}
+                          disabled={currentIndex === 0}
+                        >
+                          <ArrowLeft size={18} /> 上一题
+                        </Button>
+                      </span>
 
                       {currentIndex < total - 1 ? (
-                        <Button
-                          size="lg"
-                          onClick={handleNext}
-                          disabled={!isAnswered(answers[current.id])}
-                          className="w-full sm:w-auto gap-1.5"
-                        >
-                          下一题 <ArrowRight size={18} />
-                        </Button>
+                        <span className="lofn-lsas-nav__btn">
+                          <Button
+                            size="lg"
+                            onClick={handleNext}
+                            disabled={!isAnswered(answers[current.id])}
+                          >
+                            下一题 <ArrowRight size={18} />
+                          </Button>
+                        </span>
                       ) : (
-                        <Button size="lg" onClick={handleSubmit} className="w-full sm:w-auto">
-                          提交并查看结果
-                        </Button>
+                        <span className="lofn-lsas-nav__btn">
+                          <Button size="lg" onClick={handleSubmit}>
+                            提交并查看结果
+                          </Button>
+                        </span>
                       )}
                     </div>
 
                     {currentIndex < total - 1 && !isAnswered(answers[current.id]) && (
-                      <p className="text-xs text-text-tertiary">完成当前场景后再继续下一题</p>
+                      <p className="lofn-lsas-nav__hint">完成当前场景后再继续下一题</p>
                     )}
 
-                    <button
-                      onClick={handleReset}
-                      className="inline-flex items-center gap-1.5 text-sm text-text-secondary hover:text-text-primary transition-colors min-h-[44px] px-2"
-                    >
+                    <button onClick={handleReset} className="lofn-lsas-nav__reset">
                       <RotateCcw size={14} /> 清空重答
                     </button>
                   </div>

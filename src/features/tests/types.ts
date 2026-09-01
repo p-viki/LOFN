@@ -29,8 +29,8 @@ export interface TestProject {
   description: string
   /** 卡片徽标文案（如「量表」「Demo」） */
   badge?: string
-  /** 徽标样式类 */
-  badgeClassName?: string
+  /** 徽标色调，用于在 Less 中独立定义样式 */
+  badgeTone?: 'purple' | 'info' | 'success' | 'warning'
   /** 加载列表页附加信息（题数/标签），可选 */
   loadInfo?: () => Promise<TestProjectInfo>
   /** 作答页组件：自包含「加载题库 → 答题 → 计分 → 报告」完整流程 */

@@ -15,7 +15,6 @@ import {
 } from 'lucide-react'
 import type { LsasScoreResult } from '../lib/scoring'
 import { SI_SUBSCALE_MAX, PS_SUBSCALE_MAX, QUADRANT_SHORT_LABELS } from '../lib/scoring'
-import { cn } from '@/utils/cn'
 import {
   LSAS_REPORT_CONFIG,
   type LsasReportConfig,
@@ -86,14 +85,6 @@ export function LsasReport({ result, onReset, config = LSAS_REPORT_CONFIG }: Lsa
     return () => controls.stop()
   }, [total])
 
-  const levelColor: Record<string, string> = {
-    none: 'text-success border-success/30 bg-success/10',
-    mild: 'text-info border-info/30 bg-info/10',
-    moderate: 'text-warning border-warning/30 bg-warning/10',
-    severe: 'text-error border-error/30 bg-error/10',
-    extreme: 'text-error border-error/50 bg-error/20',
-  }
-
   const sections = config.sections.filter((s) => s.enabled)
 
   return (
@@ -101,7 +92,7 @@ export function LsasReport({ result, onReset, config = LSAS_REPORT_CONFIG }: Lsa
       initial={{ opacity: 0, y: 24 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
-      className="lofn-lsas-report rounded-lg border border-border-subtle bg-bg-surface overflow-hidden"
+      className="lofn-lsas-report"
     >
       {sections.map((section, index) => {
         const key = `${section.type}-${section.subscale ?? 'all'}-${index}`
@@ -115,7 +106,6 @@ export function LsasReport({ result, onReset, config = LSAS_REPORT_CONFIG }: Lsa
                 displayTotal={displayTotal}
                 total={total}
                 totalLabel={config.totalLabel}
-                levelColor={levelColor}
                 levelLabel={levelInfo.label}
                 level={levelInfo.level}
                 levelDescription={levelInfo.description}
@@ -141,9 +131,9 @@ export function LsasReport({ result, onReset, config = LSAS_REPORT_CONFIG }: Lsa
                 subtitle={section.subtitle}
                 icon={<SectionIcon size={16} />}
               >
-                <div className="mb-4">
-                  <p className="text-sm font-medium text-text-primary mb-1">{quadrantData.label}</p>
-                  <p className="text-sm text-text-secondary leading-relaxed">
+                <div className="lofn-lsas-report__quadrant-intro">
+                  <p className="lofn-lsas-report__quadrant-label">{quadrantData.label}</p>
+                  <p className="lofn-lsas-report__quadrant-text">
                     {quadrantData.description}
                   </p>
                 </div>
@@ -164,39 +154,36 @@ export function LsasReport({ result, onReset, config = LSAS_REPORT_CONFIG }: Lsa
                 subtitle={section.subtitle}
                 icon={<SectionIcon size={16} />}
               >
-                <div className="flex items-center gap-3.5 mb-4">
-                  <span
-                    aria-hidden
-                    className="shrink-0 w-14 h-14 flex items-center justify-center rounded-full bg-bg-elevated border border-border-subtle text-3xl"
-                  >
+                <div className="lofn-lsas-report__combined">
+                  <span aria-hidden className="lofn-lsas-report__combined-icon">
                     {combinedProfile.animal.split(' ')[0]}
                   </span>
-                  <div>
-                    <p className="text-lg font-semibold text-text-primary">
+                  <div className="lofn-lsas-report__combined-info">
+                    <p className="lofn-lsas-report__combined-name">
                       {combinedProfile.name}
                     </p>
-                    <p className="text-xs text-text-tertiary font-mono mt-0.5">
+                    <p className="lofn-lsas-report__combined-meta">
                       PS {QUADRANT_SHORT_LABELS[psQuadrant.type]} × SI{' '}
                       {QUADRANT_SHORT_LABELS[siQuadrant.type]} ·{' '}
                       {combinedProfile.animal.split(' ').slice(1).join(' ')}
                     </p>
                   </div>
                 </div>
-                <div className="space-y-2.5">
-                  <p className="text-sm text-text-primary">
-                    <span className="inline-flex items-center gap-1.5 text-info font-medium">
+                <div className="lofn-lsas-report__combined-body">
+                  <p className="lofn-lsas-report__combined-core">
+                    <span>
                       <PawPrint size={14} /> 核心特性
                     </span>
-                    <span className="ml-1.5">{combinedProfile.core}</span>
+                    {combinedProfile.core}
                   </p>
-                  <p className="text-sm text-text-secondary leading-relaxed">
+                  <p className="lofn-lsas-report__combined-behavior">
                     {combinedProfile.behavior}
                   </p>
-                  <div className="mt-3 rounded-lg border border-warning/20 bg-warning/5 p-3">
-                    <p className="text-xs font-medium text-warning mb-1 flex items-center gap-1">
+                  <div className="lofn-lsas-report__satire">
+                    <p className="lofn-lsas-report__satire-title">
                       <PawPrint size={12} /> 毒舌点评
                     </p>
-                    <p className="text-xs text-text-secondary leading-relaxed">
+                    <p className="lofn-lsas-report__satire-text">
                       {combinedProfile.satire}
                     </p>
                   </div>
@@ -211,7 +198,7 @@ export function LsasReport({ result, onReset, config = LSAS_REPORT_CONFIG }: Lsa
                 subtitle={section.subtitle}
                 icon={<SectionIcon size={16} />}
               >
-                <p className="text-sm text-text-secondary leading-relaxed mb-4">
+                <p className="lofn-lsas-report__scene-desc">
                   {sceneProfile.description}
                 </p>
                 <SceneBar siScore={siScore} psScore={psScore} dominant={sceneProfile.dominant} />
@@ -225,7 +212,7 @@ export function LsasReport({ result, onReset, config = LSAS_REPORT_CONFIG }: Lsa
                 subtitle={section.subtitle}
                 icon={<SectionIcon size={16} />}
               >
-                <ul className="space-y-2">
+                <ul className="lofn-lsas-report__advice-list">
                   {quadrant.advice.map((a) => (
                     <AdviceItem key={a} text={a} />
                   ))}
@@ -240,19 +227,16 @@ export function LsasReport({ result, onReset, config = LSAS_REPORT_CONFIG }: Lsa
 
       {/* 操作区 */}
       {config.showReset && onReset && (
-        <div className="flex items-center justify-center px-5 py-4 border-t border-border-subtle">
-          <button
-            onClick={onReset}
-            className="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg border border-border-default text-sm text-text-primary hover:bg-bg-elevated transition-colors"
-          >
+        <div className="lofn-lsas-report__actions">
+          <button onClick={onReset} className="lofn-lsas-report__reset">
             <RotateCcw size={14} /> 重新测试
           </button>
         </div>
       )}
 
       {/* 免责声明 */}
-      <div className="px-5 py-3 border-t border-border-subtle">
-        <p className="text-xs text-text-tertiary leading-relaxed">{config.disclaimer}</p>
+      <div className="lofn-lsas-report__footer">
+        <p className="lofn-lsas-report__disclaimer">{config.disclaimer}</p>
       </div>
     </motion.div>
   )
@@ -265,7 +249,6 @@ function OverviewSection({
   displayTotal,
   total,
   totalLabel,
-  levelColor,
   levelLabel,
   level,
   levelDescription,
@@ -275,16 +258,15 @@ function OverviewSection({
   displayTotal: number
   total: number
   totalLabel: string
-  levelColor: Record<string, string>
   levelLabel: string
   level: string
   levelDescription: string
   factorValues: Record<LsasFactorKey, number>
 }) {
   return (
-    <div className="flex flex-col sm:flex-row sm:items-center gap-6 p-5 sm:p-8">
-      <div className="relative shrink-0 mx-auto sm:mx-0">
-        <svg width="160" height="160" viewBox="0 0 160 160" className="-rotate-90">
+    <div className="lofn-lsas-report__overview">
+      <div className="lofn-lsas-report__ring">
+        <svg width="160" height="160" viewBox="0 0 160 160" className="lofn-lsas-report__svg">
           <circle
             cx="80"
             cy="80"
@@ -313,31 +295,26 @@ function OverviewSection({
             </linearGradient>
           </defs>
         </svg>
-        <div className="absolute inset-0 flex flex-col items-center justify-center">
-          <span className="text-4xl font-semibold text-text-primary font-mono">{displayTotal}</span>
-          <span className="text-xs text-text-tertiary mt-0.5">{totalLabel}</span>
+        <div className="lofn-lsas-report__score-wrap">
+          <span className="lofn-lsas-report__score">{displayTotal}</span>
+          <span className="lofn-lsas-report__score-label">{totalLabel}</span>
         </div>
       </div>
 
-      <div className="flex-1 text-center sm:text-left">
-        <div className="flex flex-col sm:flex-row sm:items-center gap-2 mb-1">
-          <h2 className="text-xl font-semibold text-text-primary">{section.title}</h2>
-          <span
-            className={cn(
-              'inline-flex items-center justify-center gap-1 text-xs font-medium px-2.5 py-1 rounded-md border w-fit mx-auto sm:mx-0',
-              levelColor[level]
-            )}
-          >
+      <div className="lofn-lsas-report__summary">
+        <div className="lofn-lsas-report__title-row">
+          <h2 className="lofn-lsas-report__section-title">{section.title}</h2>
+          <span className="lofn-lsas-report__level-badge" data-level={level}>
             <ShieldAlert size={14} /> {levelLabel}
           </span>
         </div>
         {section.subtitle && (
-          <p className="text-xs text-text-tertiary mb-4">{section.subtitle}</p>
+          <p className="lofn-lsas-report__subtitle">{section.subtitle}</p>
         )}
-        <p className="text-sm text-text-secondary mb-5 leading-relaxed">{levelDescription}</p>
+        <p className="lofn-lsas-report__description">{levelDescription}</p>
 
         {/* 因子得分（由配置 factors 决定显示哪些卡片） */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+        <div className="lofn-lsas-report__factors">
           {(section.factors ?? []).map((factor) => {
             const Icon = FACTOR_ICONS[factor.icon]
             return (
@@ -370,13 +347,13 @@ function FactorCard({
   max: number
 }) {
   return (
-    <div className="flex flex-col items-center sm:items-start gap-1 rounded-lg border border-border-subtle bg-bg-elevated/40 p-3">
-      <span className="flex items-center gap-1.5 text-xs text-text-secondary">
+    <div className="lofn-lsas-report__factor">
+      <span className="lofn-lsas-report__factor-label">
         {icon} {label}
       </span>
-      <span className="text-lg font-semibold font-mono text-text-primary">
+      <span className="lofn-lsas-report__factor-value">
         {value}
-        <span className="text-xs text-text-tertiary font-normal"> / {max}</span>
+        <span className="lofn-lsas-report__factor-max"> / {max}</span>
       </span>
     </div>
   )
@@ -394,12 +371,12 @@ function ReportSection({
   children: React.ReactNode
 }) {
   return (
-    <div className="px-5 sm:px-8 py-5 border-t border-border-subtle">
-      <div className="flex items-center gap-2 mb-1">
-        <span className="text-info">{icon}</span>
-        <h3 className="text-base font-semibold text-text-primary">{title}</h3>
+    <div className="lofn-lsas-report__section">
+      <div className="lofn-lsas-report__section-header">
+        <span className="lofn-lsas-report__section-icon">{icon}</span>
+        <h3 className="lofn-lsas-report__section-heading">{title}</h3>
       </div>
-      <p className="text-xs text-text-tertiary mb-4">{subtitle}</p>
+      <p className="lofn-lsas-report__section-subtitle">{subtitle}</p>
       {children}
     </div>
   )
@@ -421,30 +398,30 @@ function QuadrantMap({
   const highAvoidance = avoidanceTotal >= Math.ceil(avoidanceMax / 2)
 
   return (
-    <div className="grid grid-cols-2 gap-2 max-w-md mx-auto">
+    <div className="lofn-lsas-report__quadrant">
       <QuadrantCell
         active={!highFear && !highAvoidance}
         title="低消耗 · 低回避"
         desc="高社交适应"
-        className="border-success/30"
+        tone="success"
       />
       <QuadrantCell
         active={highFear && !highAvoidance}
         title="高消耗 · 低回避"
         desc="高功能/硬撑"
-        className="border-warning/30"
+        tone="warning"
       />
       <QuadrantCell
         active={!highFear && highAvoidance}
         title="低消耗 · 高回避"
         desc="偏好/习惯回避"
-        className="border-info/30"
+        tone="info"
       />
       <QuadrantCell
         active={highFear && highAvoidance}
         title="高消耗 · 高回避"
         desc="全面受阻"
-        className="border-error/40"
+        tone="error"
       />
     </div>
   )
@@ -454,26 +431,21 @@ function QuadrantCell({
   active,
   title,
   desc,
-  className,
+  tone,
 }: {
   active: boolean
   title: string
   desc: string
-  className: string
+  tone: 'success' | 'warning' | 'info' | 'error'
 }) {
   return (
     <div
-      className={cn(
-        'flex flex-col items-center justify-center gap-0.5 p-3 rounded-lg border transition-colors',
-        active
-          ? 'bg-info/10 border-info/50'
-          : 'bg-bg-elevated/30 border-border-subtle opacity-60'
-      )}
+      className="lofn-lsas-report__quadrant-cell"
+      data-active={active || undefined}
+      data-tone={tone}
     >
-      <span className={cn('text-xs font-medium text-text-primary', !active && 'text-text-tertiary')}>
-        {title}
-      </span>
-      <span className={cn('text-[11px] text-text-tertiary', active && className)}>{desc}</span>
+      <span className="lofn-lsas-report__quadrant-title">{title}</span>
+      <span className="lofn-lsas-report__quadrant-desc">{desc}</span>
     </div>
   )
 }
@@ -492,9 +464,9 @@ function SceneBar({
   const psRatio = (psScore / 78) * 100
 
   return (
-    <div className="space-y-3">
-      <SceneRow label="社交互动 SI" ratio={siRatio} color="bg-info" active={dominant === 'si'} />
-      <SceneRow label="表演 PS" ratio={psRatio} color="bg-purple-500" active={dominant === 'ps'} />
+    <div className="lofn-lsas-report__scene-bars">
+      <SceneRow label="社交互动 SI" ratio={siRatio} type="si" active={dominant === 'si'} />
+      <SceneRow label="表演 PS" ratio={psRatio} type="ps" active={dominant === 'ps'} />
     </div>
   )
 }
@@ -502,25 +474,25 @@ function SceneBar({
 function SceneRow({
   label,
   ratio,
-  color,
+  type,
   active,
 }: {
   label: string
   ratio: number
-  color: string
+  type: 'si' | 'ps'
   active: boolean
 }) {
   return (
-    <div>
-      <div className="flex items-center justify-between mb-1">
-        <span className={cn('text-xs', active ? 'text-text-primary font-medium' : 'text-text-tertiary')}>
-          {label}
-        </span>
-        <span className="text-xs font-mono text-text-secondary">{Math.round(ratio)}%</span>
+    <div className="lofn-lsas-report__scene-row">
+      <div className="lofn-lsas-report__scene-labels">
+        <span className="lofn-lsas-report__scene-label" data-active={active || undefined}>{label}</span>
+        <span className="lofn-lsas-report__scene-ratio">{Math.round(ratio)}%</span>
       </div>
-      <div className="h-2 rounded-full bg-bg-elevated overflow-hidden">
+      <div className="lofn-lsas-report__scene-track">
         <div
-          className={cn('h-full rounded-full transition-all duration-700', color, !active && 'opacity-50')}
+          className="lofn-lsas-report__scene-fill"
+          data-type={type}
+          data-active={active || undefined}
           style={{ width: `${Math.min(ratio, 100)}%` }}
         />
       </div>
@@ -530,8 +502,8 @@ function SceneRow({
 
 function AdviceItem({ text }: { text: string }) {
   return (
-    <li className="flex items-start gap-2 text-sm text-text-secondary leading-relaxed">
-      <CheckCircle2 size={16} className="shrink-0 mt-0.5 text-info" />
+    <li className="lofn-lsas-report__advice-item">
+      <CheckCircle2 size={16} className="lofn-lsas-report__advice-icon" />
       <span>{text}</span>
     </li>
   )
