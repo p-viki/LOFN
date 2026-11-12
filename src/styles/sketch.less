@@ -1,0 +1,328 @@
+/* =========================================================
+   页面：Sketch to Image（画板 → 生成图片）
+   ========================================================= */
+
+/* ---------- 页头 ---------- */
+.lofn-sketch__header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  margin-bottom: 24px;
+
+  @media (min-width: @screen-md) {
+    margin-bottom: 32px;
+  }
+}
+
+.lofn-sketch__title {
+  font-size: 28px;
+  line-height: 1.25;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  color: var(--color-text-primary);
+
+  @media (min-width: @screen-md) {
+    font-size: 40px;
+    line-height: 1.15;
+    letter-spacing: -0.02em;
+  }
+}
+
+.lofn-sketch__desc {
+  margin-top: 8px;
+  font-size: 14px;
+  line-height: 20px;
+  color: var(--color-text-secondary);
+
+  @media (min-width: @screen-md) {
+    font-size: 16px;
+    line-height: 24px;
+  }
+}
+
+/* ---------- 画板容器 ---------- */
+.lofn-sketch__board {
+  padding: 12px;
+
+  @media (min-width: @screen-sm) {
+    padding: 16px;
+  }
+}
+
+.lofn-sketch-canvas {
+  width: 100%;
+  max-width: 640px;
+  margin: 0 auto;
+}
+
+.lofn-sketch-canvas__surface {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  border-radius: 14px;
+  overflow: hidden;
+  background-color: #ffffff;
+  cursor: crosshair;
+  /* 移动端绘制时禁止页面跟随手指滚动 */
+  touch-action: none;
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-touch-callout: none;
+}
+
+.lofn-sketch-canvas__hint {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 24px;
+  text-align: center;
+  font-size: 14px;
+  line-height: 20px;
+  color: #94a3b8;
+  pointer-events: none;
+}
+
+/* ---------- 工具栏 ---------- */
+.lofn-sketch-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px 16px;
+  margin-top: 12px;
+
+  @media (min-width: @screen-sm) {
+    margin-top: 16px;
+  }
+}
+
+.lofn-sketch-toolbar__group {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+
+  &:last-child {
+    margin-left: auto;
+  }
+}
+
+.lofn-sketch-toolbar__label {
+  font-size: 14px;
+  line-height: 20px;
+  color: var(--color-text-secondary);
+
+  /* 窄屏优先保证操作区空间，颜色组仍带 aria-label */
+  @media (max-width: @screen-xs) {
+    display: none;
+  }
+}
+
+.lofn-sketch-toolbar__colors {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.lofn-sketch-toolbar__color {
+  width: 22px;
+  height: 22px;
+  min-width: 22px;
+  min-height: 22px;
+  border-radius: 9999px;
+  box-shadow: inset 0 0 0 1px var(--color-border-default);
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+  outline: none;
+
+  &:hover {
+    transform: scale(1.08);
+  }
+
+  &:focus-visible,
+  &[aria-pressed='true'] {
+    /* 选中/聚焦：在外圈加环，不遮挡颜色本身 */
+    box-shadow:
+      inset 0 0 0 1px var(--color-border-default),
+      0 0 0 2px var(--color-bg-surface),
+      0 0 0 4px rgba(@info-rgb, 0.9);
+  }
+}
+
+.lofn-sketch-toolbar__size {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+}
+
+.lofn-sketch-toolbar__size-value {
+  min-width: 44px;
+  text-align: center;
+  font-size: 14px;
+  line-height: 20px;
+  color: var(--color-text-primary);
+  font-variant-numeric: tabular-nums;
+}
+
+.lofn-sketch-toolbar__action-text {
+  @media (max-width: @screen-xs) {
+    display: none;
+  }
+}
+
+/* ---------- 描述 + 生成 ---------- */
+.lofn-sketch-generate {
+  margin-top: 24px;
+
+  @media (min-width: @screen-md) {
+    margin-top: 32px;
+  }
+}
+
+.lofn-sketch-generate__label {
+  display: block;
+  margin-bottom: 8px;
+  font-size: 14px;
+  line-height: 20px;
+  color: var(--color-text-secondary);
+}
+
+.lofn-sketch-generate__input {
+  display: block;
+  width: 100%;
+  min-height: 88px;
+  padding: 12px 14px;
+  border-radius: 14px;
+  border: 1px solid var(--color-border-default);
+  background-color: var(--color-bg-elevated);
+  color: var(--color-text-primary);
+  resize: vertical;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+
+  &::placeholder {
+    color: var(--color-text-tertiary);
+  }
+
+  &:focus {
+    outline: none;
+    border-color: rgba(@info-rgb, 0.5);
+    box-shadow: 0 0 0 2px rgba(@info-rgb, 0.2);
+  }
+
+  &:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+}
+
+.lofn-sketch-generate__error {
+  margin-top: 10px;
+  font-size: 14px;
+  line-height: 20px;
+  color: #f87171;
+}
+
+/* AI 草图分析结果：透明展示实际提交给模型的提示词 */
+.lofn-sketch-generate__analysis {
+  display: flex;
+  align-items: flex-start;
+  gap: 6px;
+  margin-top: 12px;
+  padding: 8px 10px;
+  border-radius: 10px;
+  border: 1px solid rgba(@info-rgb, 0.2);
+  background-color: rgba(@info-rgb, 0.06);
+  font-size: 12px;
+  line-height: 1.6;
+  color: var(--color-text-secondary);
+  word-break: break-word;
+
+  strong {
+    flex-shrink: 0;
+    font-weight: 500;
+    color: #38bdf8;
+  }
+}
+
+/* 非阻塞提示（如跳过草图分析并降级） */
+.lofn-sketch-generate__notice {
+  margin-top: 10px;
+  font-size: 12px;
+  line-height: 1.6;
+  color: #fbbf24;
+}
+
+.lofn-sketch-generate__actions {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.lofn-sketch-generate__submit {
+  width: 100%;
+
+  @media (min-width: @screen-sm) {
+    width: auto;
+    min-width: 220px;
+  }
+}
+
+.lofn-sketch-generate__spinner {
+  animation: spin 1s linear infinite;
+}
+
+/* ---------- 生成结果 ---------- */
+.lofn-sketch-result {
+  margin-top: 24px;
+  text-align: center;
+
+  @media (min-width: @screen-md) {
+    margin-top: 32px;
+  }
+}
+
+.lofn-sketch-result__title {
+  margin-bottom: 16px;
+  font-size: 18px;
+  line-height: 28px;
+  font-weight: 600;
+  color: var(--color-text-primary);
+}
+
+.lofn-sketch-result__notice {
+  margin-bottom: 12px;
+  font-size: 12px;
+  line-height: 1.6;
+  color: #fbbf24;
+}
+
+.lofn-sketch-result__frame {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px;
+  border-radius: 14px;
+  border: 1px solid var(--color-border-subtle);
+  background-color: var(--color-bg-elevated);
+}
+
+.lofn-sketch-result__image {
+  border-radius: 10px;
+}
+
+.lofn-sketch-result__error {
+  margin-top: 12px;
+  font-size: 14px;
+  line-height: 20px;
+  color: #f87171;
+}
+
+.lofn-sketch-result__actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 12px;
+  margin-top: 16px;
+}
