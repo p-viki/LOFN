@@ -1,15 +1,32 @@
 .ts2 {
   position: relative;
-  min-height: 100vh;
-  min-height: 100dvh;
-  overflow: hidden;
   background: #030306;
   color: #e8edf5;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  padding: 16px 24px 32px;
   font-family: 'Helvetica Neue', 'Arial Narrow', sans-serif;
+
+  // 整屏舞台：滚动时吸附固定，其余内容位置不变
+  &__stage {
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    height: 100dvh;
+    overflow: hidden;
+    // 网格：hero 与歌单共用第 2 行，歌单高度被该行限死，不会压到倒计时
+    display: grid;
+    grid-template-columns: minmax(0, 1fr); // 防止歌单长串把列撑宽
+    grid-template-rows: auto 1fr auto auto;
+    padding: 16px 24px 32px;
+
+    @media (max-width: 400px) {
+      padding: 18px 14px;
+    }
+  }
+
+  // 提供滚动行程
+  &__spacer {
+    height: 100vh;
+    height: 100dvh;
+  }
 
   &__canvas {
     position: absolute;
@@ -20,6 +37,7 @@
   }
 
   &__top {
+    grid-area: 1 / 1;
     position: relative;
     z-index: 2;
     display: flex;
@@ -36,6 +54,12 @@
     sup { font-size: 0.4em; font-style: normal; }
   }
 
+  &__top-right {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+  }
+
   &__anniv {
     font-size: clamp(10px, 1vw, 13px);
     letter-spacing: 0.28em;
@@ -45,11 +69,18 @@
   }
 
   &__hero {
+    grid-area: 2 / 1;
+    align-self: center;
     position: relative;
     z-index: 2;
     text-align: center;
-    margin: auto 0;
     pointer-events: none;
+    transition: opacity 0.45s ease, transform 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+
+    &.is-hidden {
+      opacity: 0;
+      transform: translateY(-10px) scale(0.98);
+    }
   }
 
   &__title {
@@ -73,14 +104,41 @@
     animation: ts2-rise 0.9s 0.15s cubic-bezier(0.22, 1, 0.36, 1) both;
   }
 
+  // 下滑指引：光点沿竖线向下流动
+  &__hint {
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    margin: clamp(26px, 7vh, 64px) 0 0;
+    font-size: 10px;
+    letter-spacing: 0.45em;
+    text-indent: 0.45em;
+    color: #aab2c4;
+    text-shadow: 0 0 10px rgba(3, 3, 6, 0.9);
+
+    i {
+      width: 1px;
+      height: 44px;
+      filter: drop-shadow(0 0 4px rgba(131, 223, 255, 0.6));
+      background: linear-gradient(180deg, rgba(131, 223, 255, 0) 0%, #83dfff 50%, rgba(131, 223, 255, 0) 100%);
+      background-size: 100% 220%;
+      animation: ts2-scroll 1.9s ease-in-out infinite;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      i { animation: none; opacity: 0.6; }
+    }
+  }
+
   // 横排倒计时：数字 + 冒号分隔
   &__count {
+    grid-area: 3 / 1;
     position: relative;
     z-index: 2;
     display: flex;
     align-items: center;
     justify-content: center;
-    margin-top: auto;
     padding-bottom: 24px; // 给下方标签留空间
   }
 
@@ -122,7 +180,80 @@
     color: #8f97ab;
   }
 
+  // 随机舞歌单：下滑后居中淡入
+  &__list {
+    // 与 hero 同处第 2 行，高度由网格行决定
+    grid-area: 2 / 1;
+    min-height: 0;
+    z-index: 3;
+    display: flex;
+    flex-direction: column;
+    justify-content: safe center;
+    gap: 10px;
+    padding-right: clamp(4px, 1.5vw, 16px);
+    // 不拦截滚动链：列表滚到顶后继续上滑会带动页面回滚，从而回到首屏
+    overflow-y: auto;
+    // 无底色直铺，用投影保证可读性
+    text-shadow: 0 1px 6px rgba(0, 0, 0, 0.95), 0 0 2px rgba(0, 0, 0, 0.9);
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(20px);
+    transition: opacity 0.5s ease, transform 0.5s cubic-bezier(0.22, 1, 0.36, 1), visibility 0.5s;
+
+    &.is-on {
+      opacity: 1;
+      visibility: visible;
+      transform: none;
+    }
+  }
+
+  &__list-title {
+    margin: 0;
+    font-size: clamp(13px, 1.6vw, 18px);
+    font-weight: 800;
+    font-style: italic;
+    letter-spacing: 0.12em;
+    color: #fff;
+
+    em {
+      margin-left: 10px;
+      font-size: 0.62em;
+      font-style: normal;
+      letter-spacing: 0.3em;
+      color: #8f97ab;
+    }
+  }
+
+  &__songs {
+    flex-shrink: 0;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    columns: 3;
+    column-gap: clamp(12px, 2.5vw, 36px);
+    font-size: clamp(9px, 0.9vw, 10.5px);
+    line-height: 1.55;
+    color: #dfe4ee;
+
+    li {
+      break-inside: avoid;
+      padding-left: 0.9em;
+      text-indent: -0.9em;
+      transition: color 0.2s;
+
+      &:hover { color: #83dfff; }
+    }
+  }
+
+  &__list-note {
+    margin: 0;
+    font-size: 10px;
+    letter-spacing: 0.14em;
+    color: #8f97ab;
+  }
+
   &__foot {
+    grid-area: 4 / 1;
     position: relative;
     z-index: 2;
     display: flex;
@@ -203,12 +334,11 @@
     &__foot { flex-wrap: wrap; gap: clamp(12px, 4vw, 24px); }
     &__item--right { margin-left: 0; }
     &__addr { text-align: left; }
+    &__songs { columns: 2; font-size: 9.5px; }
   }
 
   // 360px 小屏：压缩 padding 与 footer 字号，确保一行放得下
   @media (max-width: 400px) {
-    padding: 18px 14px;
-
     &__foot {
       gap: 10px;
       padding-top: 12px;
@@ -245,6 +375,12 @@
 
 @keyframes ts2-blink {
   50% { opacity: 0.15; }
+}
+
+@keyframes ts2-scroll {
+  0% { background-position: 0 -60%; opacity: 0; }
+  30%, 70% { opacity: 1; }
+  100% { background-position: 0 160%; opacity: 0; }
 }
 
 @keyframes ts2-halo {

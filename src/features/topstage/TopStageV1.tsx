@@ -1,5 +1,6 @@
 import { useRef } from 'react'
 import { useCountdown } from './useCountdown'
+import Bgm from './Bgm'
 import './topstage.less'
 
 export default function TopStageV1() {
@@ -17,6 +18,7 @@ export default function TopStageV1() {
         <div className="ts-poster__anniv">
           <span className="ts-poster__years">2016 — 2026</span>
           <span className="ts-poster__anniv-label">10TH<br />ANNIVERSARY</span>
+          <Bgm />
         </div>
       </header>
 
