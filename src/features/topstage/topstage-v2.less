@@ -182,6 +182,7 @@
 
   // 随机舞歌单：下滑后居中淡入
   &__list {
+    margin-bottom: 16px;
     // 与 hero 同处第 2 行，高度由网格行决定
     grid-area: 2 / 1;
     min-height: 0;
@@ -190,7 +191,7 @@
     flex-direction: column;
     justify-content: safe center;
     gap: 10px;
-    padding-right: clamp(4px, 1.5vw, 16px);
+    padding: 16px;
     // 不拦截滚动链：列表滚到顶后继续上滑会带动页面回滚，从而回到首屏
     overflow-y: auto;
     // 无底色直铺，用投影保证可读性
@@ -231,7 +232,7 @@
     list-style: none;
     columns: 3;
     column-gap: clamp(12px, 2.5vw, 36px);
-    font-size: clamp(9px, 0.9vw, 10.5px);
+    font-size: 12px;
     line-height: 1.55;
     color: #dfe4ee;
 
@@ -334,7 +335,7 @@
     &__foot { flex-wrap: wrap; gap: clamp(12px, 4vw, 24px); }
     &__item--right { margin-left: 0; }
     &__addr { text-align: left; }
-    &__songs { columns: 2; font-size: 9.5px; }
+    &__songs { columns: 2; font-size: 10px; }
   }
 
   // 360px 小屏：压缩 padding 与 footer 字号，确保一行放得下
